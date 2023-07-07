@@ -4,7 +4,7 @@ local utils = require('config.utils')
 
 function M.setup()
   if not utils.has_plug('noice.nvim') then
-    vim.notify('noice is not installed', 'error')
+    vim.notify('noice is not installed')
     return
   end
 
@@ -31,6 +31,9 @@ function M.setup()
     },
     presets = {
       lsp_doc_border = true
+    },
+    notify = {
+      enabled = false,
     },
     routes = {
       {

@@ -113,7 +113,6 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-" Plug 'hrsh7th/cmp-omni'
 Plug 'rcarriga/cmp-dap'
 
 " Plug 'hrsh7th/cmp-vsnip'
@@ -146,6 +145,8 @@ Plug 'nvim-orgmode/orgmode'
 " Plug 'antoinemadec/FixCursorHold.nvim'
 
 Plug 'jpalardy/vim-slime', { 'branch': 'main' } " C-c C-c to send text to terminal
+
+Plug 'ellisonleao/carbon-now.nvim'
 call plug#end()
 
 let mapleader=" "
@@ -214,11 +215,12 @@ lua <<EOF
     end
   end, { silent = true })
 
-  require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
   require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets/"})
+  require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
 
   vim.keymap.set({ "n" }, "<leader><leader>s", function()
     require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
+    require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
   end)
 
   vim.keymap.set({ "n" }, "<leader>se", require("luasnip.loaders").edit_snippet_files)
@@ -240,6 +242,8 @@ lua <<EOF
 --      markdown = {"lua", "json", "mermaid", "ruby", "python", "bash", "java"}
 --    })
   })
+  -- ls.filetype_set("cs", { "csharp" })
+
 EOF
 endif
 
@@ -308,8 +312,8 @@ endif
 if HasPlug("notational-fzf-vim")
   " nnoremap <leader>n :NV!<CR>
   nnoremap <leader>org :e ~/notes/organisation.md<CR>
-  let g:nv_search_paths= ['~/notes']
-  let g:nv_default_extension = '.norg'
+  let g:nv_search_paths= ['~/org']
+  let g:nv_default_extension = '.org'
   let g:nv_create_note_key = 'ctrl-x'
 endif
 
@@ -581,17 +585,23 @@ lua <<EOF
     end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-      { name = 'luasnip' }, -- For luasnip users.
+      { name = 'luasnip' },
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
-      { name = 'path' },
+      { name = 'path', },
       { name = 'orgmode' },
     }, {
-      { name = 'buffer' },
+      { name = 'buffer',
+        option = {
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        },
+      },
     }),
    formatting = {
      format = require'lspkind'.cmp_format({
-       mode = "text",
+       mode = "symbol_text",
        menu = ({
          buffer = "[buf]",
          nvim_lsp = "[lsp]",
@@ -654,6 +664,7 @@ highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 
 
 nnoremap <silent><c-]> <cmd> lua vim.lsp.buf.definition()<CR>
+nnoremap <silent><c-$> <cmd> lua vim.lsp.buf.definition()<CR>
 nnoremap <silent><leader>rn <cmd> lua vim.lsp.buf.rename()<CR>
 nnoremap <silent>K <cmd> lua vim.lsp.buf.hover()<CR>
 nnoremap <silent><leader>ch <cmd> lua vim.lsp.buf.code_action()<CR>
@@ -667,3 +678,26 @@ endif
 lua << CUSTOM_CONFIG
   require('config').setup()
 CUSTOM_CONFIG
+
+lua << CARBONNOW
+local carbon = require('carbon-now')
+carbon.setup({
+  use_reg="+",
+  -- open_cmd="",
+  open_cmd="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe",
+  options = {
+    theme = "material",
+    -- font_size = "14px",
+    font_family="",
+    font_size="",
+    bg="white",
+    titlebar="",
+    drop_shadow=true,
+    window_theme="",
+    line_numbers=false,
+    line_height = "",
+    watermark = false,
+    width = "",
+  }
+})
+CARBONNOW

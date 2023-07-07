@@ -9,7 +9,7 @@ function M.setup()
   end
 
   require('lint').linters_by_ft = {
-    markdown = { 'vale', },
+    markdown = { 'vale', 'proselint' },
     sh = { 'shellcheck', },
     python = { 'pylint', },
     html = { 'tidy' },

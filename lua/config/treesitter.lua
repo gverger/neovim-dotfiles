@@ -41,8 +41,14 @@ function M.setup()
           ['@class.outer'] = 'V',
         },
       }
-    }
+    },
+    query_linter = {
+      enable = true,
+      use_virtual_text = true,
+      lint_events = { "BufWrite", "CursorHold" },
+    },
   }
+  -- vim.treesitter.language.register('c_sharp', 'csharp')
 
   vim.cmd([[
   function! MyFoldText()

@@ -36,7 +36,12 @@ return {
     local root = tree:parse()[1]:root()
     local start_row, _, end_row, _ = root:range()
 
-    local query = ts.parse_query('java', '(class_declaration name: (identifier) @name body: (class_body) @body)')
+    local query = ts.query.parse('java', [[
+    [
+    (class_declaration name: (identifier) @name body: (class_body) @body)
+    (record_declaration name: (identifier) @name body: (class_body) @body)
+    ]
+    ]])
 
     local class_first_line = -1
     local class_name = ""

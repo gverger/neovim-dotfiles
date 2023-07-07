@@ -59,30 +59,11 @@ local workspace_dir = '/home/gverger/.local/share/jdtls-workspace/' .. project_n
 
 capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+
 local on_attach = function(client, bufnr)
-  local border = {
-      {'╭', "FloatBorder"},
-      {'-', "FloatBorder"}, -- {'─', "FloatBorder"},
-      {'╮', "FloatBorder"},
-      {"│", "FloatBorder"},
-      {'╯', "FloatBorder"},
-      {'-', "FloatBorder"}, -- {'─', "FloatBorder"},
-      {'╰', "FloatBorder"},
-      {"│", "FloatBorder"},
-      }
-
-   if client.server_capabilities.documentHighlightProvider then
-     vim.cmd [[
-       augroup lsp_document_highlight
-         autocmd! * <buffer>
-         " autocmd CursorMoved,CursorMovedI,BufHidden,InsertEnter,InsertCharPre,WinLeave <buffer> lua vim.lsp.buf.clear_references()
-         " autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-       augroup END
-     ]]
-   end
-
-   --vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-   require('jdtls').setup_dap({hotcodereplace = 'auto'})
+  require('jdtls').setup_dap({hotcodereplace = 'auto'})
+  require('jdtls.setup').add_commands()
+  require('config.lsp.codelens').on_attach(client, bufnr)
 end
 
 local mason_packages = "$HOME/.local/share/nvim/mason/packages/"
@@ -91,6 +72,10 @@ local bundles = {
   vim.fn.glob(mason_packages .. "java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", 1)
 }
 vim.list_extend(bundles, vim.split(vim.fn.glob(mason_packages .. "java-test/extension/server/*.jar", 1), "\n"))
+
+bundles = vim.tbl_filter(function(s)
+  return not vim.endswith(s, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
+end, bundles) or {}
 
 vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/openjdk-17.0.2/")
 
@@ -161,7 +146,6 @@ local config = {
         },
         completion = {
           overwrite = true,
-          maxResults = 10,
           importOrder = {
             "",
             "javax",
@@ -211,10 +195,10 @@ end)
 LSP
 nnoremap <leader>dg 'T
 
-command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
-command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)
-command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
-command! -buffer JdtJol lua require('jdtls').jol()
-command! -buffer JdtBytecode lua require('jdtls').javap()
-command! -buffer JdtJshell lua require('jdtls').jshell()
+" command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
+" command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)
+" command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
+" command! -buffer JdtJol lua require('jdtls').jol()
+" command! -buffer JdtBytecode lua require('jdtls').javap()
+" command! -buffer JdtJshell lua require('jdtls').jshell()
 

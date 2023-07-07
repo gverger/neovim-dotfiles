@@ -25,6 +25,14 @@ local function setup_neorg()
           engine = "nvim-cmp",
         },
       },
+      ["core.keybinds"] = {
+        config = {
+          hook = function(keybinds)
+            keybinds.map_event("norg", "i", "<M-O>", "core.itero.previous-iteration")
+            keybinds.map_event("norg", "i", "<M-o>", "core.itero.next-iteration")
+          end,
+        }
+      },
     },
   }
 end
@@ -51,6 +59,7 @@ local function setup_orgmode()
       STARTED = ':foreground lightblue',
     },
   }
+  utils.noremap("n", "<leader>n", ':Telescope find_files search_dirs={"~/norg"} path_display={"truncate"} <CR>')
 end
 
 function M.setup()

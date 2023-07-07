@@ -8,16 +8,29 @@ local function manual_sonarlint_configuration()
   end
   -- manual installation. come back later to check if we can use mason to install it
   require('sonarlint').setup({
+    -- server = {
+    --   -- Basic command to start sonarlint-language-server. Will be enhanced with additional command line options
+    --   cmd = {
+    --     "java", "-jar", "/home/gverger/bin/sonarlint/sonarlint-language-server-2.17.0-SNAPSHOT.jar",
+    --     "-stdio",
+    --     "-analyzers",
+    --     "/home/gverger/bin/sonarlint/plugins/sonarpython.jar",
+    --     "/home/gverger/bin/sonarlint/plugins/sonarjava.jar",
+    --   }
+    -- },
     server = {
-      -- Basic command to start sonarlint-language-server. Will be enhanced with additional command line options
-      cmd = {
-        "java", "-jar", "/home/gverger/bin/sonarlint/sonarlint-language-server-2.17.0-SNAPSHOT.jar",
-        "-stdio",
-        "-analyzers",
-        "/home/gverger/bin/sonarlint/plugins/sonarpython.jar",
-        "/home/gverger/bin/sonarlint/plugins/sonarjava.jar",
-      }
+    cmd = {
+         'sonarlint-language-server',
+         -- Ensure that sonarlint-language-server uses stdio channel
+         '-stdio',
+         '-analyzers',
+         -- paths to the analyzers you need, using those for python and java in this example
+         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+      },
     },
+
     filetypes = { 'python', 'java' }
   })
 end
@@ -54,17 +67,7 @@ function M.setup()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   local on_attach = function(client, bufnr)
-    if client.server_capabilities.documentHighlightProvider then
-      vim.cmd [[
-         augroup lsp_document_highlight
-           autocmd! * <buffer>
-           " autocmd CursorMoved,CursorMovedI,BufHidden,InsertEnter,InsertCharPre,WinLeave <buffer> lua vim.lsp.buf.clear_references()
-           " autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-         augroup END
-       ]]
-    end
-
-    -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+    require('config.lsp.codelens').on_attach(client, bufnr)
   end
 
   -- LSP servers that only need the default configuration
@@ -141,6 +144,7 @@ function M.setup()
 
   lspconfig.csharp_ls.setup {
     cmd = { "/home/gverger/bin/csharp-ls" },
+    -- filetypes = { "cs", "csharp" },
     on_attach = on_attach,
     capabilities = capabilities,
     root_dir = root_directory,

@@ -43,7 +43,7 @@ local function assign_caller()
     local type = child:type()
 
     if type == 'identifier' or type == 'operator_name' then
-      return (ts_utils.get_node_text(child))[1]
+      return (ts_utils.get_node_text(child))
     end
   end
   return ""
