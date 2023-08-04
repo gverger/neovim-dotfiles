@@ -76,10 +76,12 @@ Plug 'thinca/vim-textobj-between'
 Plug 'Julian/vim-textobj-variable-segment', { 'branch': 'main' }
 " Plug 'b4winckler/vim-angry' " argument text objects
 
+
 " Languages
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'chrisbra/csv.vim'
 Plug 'LnL7/vim-nix'
 Plug 'mfussenegger/nvim-jdtls'
@@ -99,6 +101,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
 " Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 " Plug 'Shatur/neovim-ayu'
 Plug 'savq/melange'
+" Plug 'nyoom-engineering/oxocarbon.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'rcarriga/nvim-notify'
@@ -140,9 +143,6 @@ Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 " Pick one at some point
 Plug 'nvim-neorg/neorg'
 Plug 'nvim-orgmode/orgmode'
-
-" Fixes a bug with CursorHold
-" Plug 'antoinemadec/FixCursorHold.nvim'
 
 Plug 'jpalardy/vim-slime', { 'branch': 'main' } " C-c C-c to send text to terminal
 
@@ -255,9 +255,9 @@ endif
 
 if HasPlug("lightline.vim")
   let g:lightline = {
-        \ 'colorscheme': 'wombat',
+        \ 'colorscheme': 'oxocarbon',
         \ 'component': {
-        \   'lineinfo': ' %3l:%-2v',
+        \   'lineinfo': "\ %3l\xee\xaa\x9d\xee\xaa\x9f%-2v%<",
         \   'filename': '%f'
         \ },
         \ 'active': {
@@ -274,7 +274,8 @@ if HasPlug("lightline.vim")
         \   'lsp_diagnostic_hints': 'LspHints',
         \   'filename': 'Filename'
         \ },
-        \ 'subseparator': { 'left': '|', 'right': '|' }
+        \ 'subseparator': { 'left': "\xee\x82\xb9", 'right': "\xee\x82\xbb" },
+        \ 'separator' : { 'left': "\xee\x82\xb8", 'right': "\xee\x82\xba" },
         \ }
 
   function! LightlineReadonly()
@@ -282,11 +283,8 @@ if HasPlug("lightline.vim")
   endfunction
 
   function! LightlineFugitive()
-    if exists('*fugitive#head')
-      let branch = fugitive#head()
-      return branch !=# '' ? ' '.branch : ''
-    endif
-    return ''
+    let branch = FugitiveHead()
+    return branch !=# '' ? ' '.branch : 'not in git'
   endfunction
 
   function! Filename()
@@ -300,7 +298,7 @@ if HasPlug("lightline.vim")
   set noshowmode " don't show mode at the bottom as it is displayed in lightline
 endif
 
-set guifont=Roboto\ Mono\ for\ Powerline:h12
+" set guifont=Roboto\ Mono\ for\ Powerline:h12
 
 if HasPlug('Comment.nvim')
 lua <<COMMENT
@@ -409,15 +407,34 @@ augroup MyColors
   autocmd BufWinEnter * syntax match ExtraWhitespace /\s\+$/
 
   autocmd ColorScheme * hi NormalFloat guibg=#292522
-  autocmd ColorScheme * hi FloatBorder guibg=#292522 guifg=#915245
-  autocmd ColorScheme * hi Comment gui=NONE " disable italics in comments
+  " autocmd ColorScheme * hi FloatBorder guibg=#292522 guifg=#915245
   autocmd ColorScheme * hi String gui=NONE " disable italics in Strings
 
-  autocmd ColorScheme * hi clear SignColumn
-  autocmd ColorScheme * hi link GitSignsChange Function  " GitSignsChange has a blue background
-  autocmd ColorScheme * hi DiffDelete guifg=NONE
+  " autocmd ColorScheme * hi clear SignColumn
+
+  " autocmd ColorScheme * hi link GitSignsChange Function  " GitSignsChange has a blue background
+  " autocmd ColorScheme * hi DiffDelete guifg=NONE
+
   autocmd ColorScheme * hi clear Folded
   autocmd ColorScheme * hi link Folded Comment
+  " gray
+  autocmd ColorScheme * highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+  " blue
+  " autocmd ColorScheme * highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+  " autocmd ColorScheme * highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+  " light blue
+  autocmd ColorScheme * highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+  autocmd ColorScheme * highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+  autocmd ColorScheme * highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
+  " pink
+  autocmd ColorScheme * highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
+  autocmd ColorScheme * highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
+  " front
+  autocmd ColorScheme * highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+  autocmd ColorScheme * highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+  autocmd ColorScheme * highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+
+
 augroup end
 
 set nobackup
@@ -590,6 +607,7 @@ lua <<EOF
       { name = 'nvim_lua' },
       { name = 'path', },
       { name = 'orgmode' },
+      { name = 'neorg' },
     }, {
       { name = 'buffer',
         option = {
@@ -644,23 +662,6 @@ lua <<EOF
 vim.keymap.set("i", "<c-u>", require "luasnip.extras.select_choice", { silent = true })
 EOF
 endif
-
-" gray
-highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-" blue
-" highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
-" highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-" light blue
-highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
-highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
-highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
-" pink
-highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
-highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
-" front
-highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
-highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
-highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 
 
 nnoremap <silent><c-]> <cmd> lua vim.lsp.buf.definition()<CR>

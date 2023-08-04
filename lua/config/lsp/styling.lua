@@ -25,9 +25,9 @@ function M.setup()
   })
 
   vim.cmd([[
-    autocmd ColorScheme * hi LspReferenceRead term=standout gui=underline
-    autocmd ColorScheme * hi LspReferenceText term=standout gui=underline
-    autocmd ColorScheme * hi LspReferenceWrite term=standout gui=underline
+    autocmd ColorScheme * hi LspReferenceRead term=standout gui=standout
+    autocmd ColorScheme * hi LspReferenceText term=standout gui=standout
+    autocmd ColorScheme * hi LspReferenceWrite term=standout gui=standout
     autocmd ColorScheme * hi LspCodeLens guifg=#c1a78e gui=italic
     autocmd ColorScheme * hi LspCodeLensSeparator guifg=#c1a78e gui=italic
   ]])

@@ -68,6 +68,13 @@ function M.setup()
 
   local on_attach = function(client, bufnr)
     require('config.lsp.codelens').on_attach(client, bufnr)
+    vim.cmd([[
+    augroup lsp_document_highlight
+    autocmd! * <buffer>
+    autocmd CursorMoved,CursorMovedI,BufHidden,InsertEnter,InsertCharPre,WinLeave <buffer> lua vim.lsp.buf.clear_references()
+    " autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+    augroup end
+    ]])
   end
 
   -- LSP servers that only need the default configuration
