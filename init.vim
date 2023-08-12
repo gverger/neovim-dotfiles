@@ -150,6 +150,7 @@ Plug 'ellisonleao/carbon-now.nvim'
 call plug#end()
 
 let mapleader=" "
+let maplocalleader = ","
 
 function! HasPlug(name)
   let found = has_key(g:plugs, a:name)
@@ -283,8 +284,11 @@ if HasPlug("lightline.vim")
   endfunction
 
   function! LightlineFugitive()
+    if ! FugitiveIsGitDir()
+      return 'not in git'
+    endif
     let branch = FugitiveHead()
-    return branch !=# '' ? ' '.branch : 'not in git'
+    return branch !=# '' ? ' '.branch : FugitiveStatusline()
   endfunction
 
   function! Filename()
