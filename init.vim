@@ -29,6 +29,7 @@ Plug 'tpope/vim-rhubarb' " github extension to fugitive
 Plug 'tpope/vim-eunuch' " :Delete, :Rename
 Plug 'tpope/vim-projectionist'
 Plug 'jeetsukumaran/vim-filebeagle' " File explorer
+" Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'vim-scripts/tComment' " Comment code
 Plug 'numToStr/Comment.nvim'
 Plug 'bronson/vim-trailing-whitespace'
@@ -217,11 +218,13 @@ lua <<EOF
   end, { silent = true })
 
   require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets/"})
-  require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
+  require("luasnip.loaders.from_vscode").load() -- for friendly-snippets
+  require("luasnip").filetype_extend("c_sharp", {"cs", "csharpdoc"})
+
 
   vim.keymap.set({ "n" }, "<leader><leader>s", function()
     require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
-    require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
+    require("luasnip.loaders.from_vscode").load() -- for friendly-snippets
   end)
 
   vim.keymap.set({ "n" }, "<leader>se", require("luasnip.loaders").edit_snippet_files)
@@ -256,7 +259,6 @@ endif
 
 if HasPlug("lightline.vim")
   let g:lightline = {
-        \ 'colorscheme': 'oxocarbon',
         \ 'component': {
         \   'lineinfo': "\ %3l\xee\xaa\x9d\xee\xaa\x9f%-2v%<",
         \   'filename': '%f'
@@ -523,7 +525,7 @@ endif
 
 " Rg or Ag instead of Ack
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
+  let g:ackprg = 'rg --vimgrep -M 1000 --max-columns-preview'
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
@@ -679,6 +681,16 @@ if HasPlug("markdown-preview.nvim")
   let g:mkdp_markdown_css = expand('~/notes/mermaid.css')
   let g:mkdp_refresh_slow = 1
 endif
+
+" lua << tree
+" require("nvim-tree").setup(
+" {
+"  filters = {
+"     dotfiles = true,
+"   },
+" }
+"  )
+" tree
 
 lua << CUSTOM_CONFIG
   require('config').setup()

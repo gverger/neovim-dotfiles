@@ -55,6 +55,11 @@ return {
   s("isonow", {f(function ()
     return os.date("!%Y-%m-%dT%TZ")
   end)}),
+  s("demain",
+  f(function ()
+    local date = os.date("*t", os.time() +24*60*60)
+    return days[date.wday] .. " " .. date.day .. " " .. months[date.month]
+  end)),
   s("hier",
   f(function ()
     local date = os.date("*t", os.time() -24*60*60)
@@ -64,6 +69,10 @@ return {
   f(function ()
     local date = os.date("*t")
     return days[date.wday] .. " " .. date.day .. " " .. months[date.month]
+  end)),
+  s("today",
+  f(function ()
+    return os.date("%A %d %B")
   end)),
   s("now", {
     c(1, {
@@ -84,5 +93,12 @@ return {
         return os.date("%A %d %B")
       end),
     })
-  })
+  }),
+  s("gbranch", f(function()
+    local handle = io.popen("git branch --show-current")
+    local result = handle:read("*a")
+    handle:close()
+    return result:gsub('[\n\r]', '')
+end))
+
 }

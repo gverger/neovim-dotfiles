@@ -77,12 +77,15 @@ bundles = vim.tbl_filter(function(s)
   return not vim.endswith(s, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
 end, bundles) or {}
 
+local extendedClientCapabilities = require('jdtls').extendedClientCapabilities;
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
+
 vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/openjdk-17.0.2/")
 
 local config = {
     on_attach = on_attach,
     capabilities = capabilities,
-    cmd = {'/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true'},
+    cmd = {'/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true', '--jvm-arg=-DMARI=true'},
     root_dir = root_directory(),
     settings = {
       java = {
@@ -142,7 +145,14 @@ local config = {
         },
         -- memberSortOrder= {"T", "SI", "SF", "F", "SM", "C", "I", "M"},
         codeGeneration = {
-          generateComments = false
+          generateComments = false,
+          toString = {
+            template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+            },
+          hashCodeEquals = {
+            useJava7Objects = true,
+            },
+          useBlocks = true,
         },
         completion = {
           overwrite = true,
@@ -160,6 +170,7 @@ local config = {
     },
     init_options = {
       bundles = bundles,
+      extendedClientCapabilities = extendedClientCapabilities,
     },
 }
 
