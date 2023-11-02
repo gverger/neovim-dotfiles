@@ -13,7 +13,6 @@ function! java#GetPosition()
 endfunction
 
 nnoremap <buffer> <leader>sy :call system('/mnt/c/windows/system32/clip.exe ', test#java#maventest#executable . ' ' . test#java#maventest#build_position("nearest", java#GetPosition())[0])<CR>
-nnoremap <buffer> <leader>ff <cmd> lua vim.lsp.buf.format({async = true})<CR>
 
 augroup JAVA
   au!
@@ -64,6 +63,12 @@ local on_attach = function(client, bufnr)
   require('jdtls').setup_dap({hotcodereplace = 'auto'})
   require('jdtls.setup').add_commands()
   require('config.lsp.codelens').on_attach(client, bufnr)
+  vim.cmd([[
+  augroup lsp_document_highlight
+  autocmd! * <buffer>
+  autocmd CursorMoved,CursorMovedI,BufHidden,InsertEnter,InsertCharPre,WinLeave <buffer> lua vim.lsp.buf.clear_references()
+  augroup end
+  ]])
 end
 
 local mason_packages = "$HOME/.local/share/nvim/mason/packages/"
@@ -113,6 +118,9 @@ local config = {
           },
         },
         configuration = {
+          maven = {
+            userSettings="/home/gverger/artelys/powsybl-griffin/.mvn/local-settings.xml"
+          },
           runtimes = {
             {
               name = "JavaSE-1.8",
@@ -203,6 +211,8 @@ end)
 vim.keymap.set({ "n" }, "<leader>dc", function()
   require'jdtls'.test_class()
 end)
+
+vim.keymap.set({ "n" }, "gs", require('jdtls').super_implementation)
 LSP
 nnoremap <leader>dg 'T
 

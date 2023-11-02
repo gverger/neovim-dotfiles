@@ -76,7 +76,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'thinca/vim-textobj-between'
 Plug 'Julian/vim-textobj-variable-segment', { 'branch': 'main' }
 " Plug 'b4winckler/vim-angry' " argument text objects
-
+Plug 'ggandor/leap.nvim'
 
 " Languages
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -144,6 +144,7 @@ Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 " Pick one at some point
 Plug 'nvim-neorg/neorg'
 Plug 'nvim-orgmode/orgmode'
+Plug 'kaarmu/typst.vim'
 
 Plug 'jpalardy/vim-slime', { 'branch': 'main' } " C-c C-c to send text to terminal
 
@@ -181,8 +182,8 @@ if HasPlug("neoformat")
   let g:neoformat_run_all_formatters = 1
 
 
-  nnoremap <leader>fl V:Neoformat<CR>==
-  nnoremap <leader>ff :Neoformat<CR>
+  " nnoremap <leader>fl V:Neoformat<CR>==
+  " nnoremap <leader>ff :Neoformat<CR>
 endif
 
 " set shortmess+=c
@@ -254,6 +255,13 @@ endif
 " Navigation quick-scope
 if HasPlug("quick-scope")
   let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+endif
+
+if HasPlug("leap.nvim")
+lua << LEAP
+  require("leap").add_default_mappings()
+  require("leap").opts.highlight_unlabeled_phase_one_targets = true
+LEAP
 endif
 
 

@@ -19,19 +19,27 @@ local function manual_sonarlint_configuration()
     --   }
     -- },
     server = {
-    cmd = {
-         'sonarlint-language-server',
-         -- Ensure that sonarlint-language-server uses stdio channel
-         '-stdio',
-         '-analyzers',
-         -- paths to the analyzers you need, using those for python and java in this example
-         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+      cmd = {
+        'sonarlint-language-server',
+        -- Ensure that sonarlint-language-server uses stdio channel
+        '-stdio',
+        '-analyzers',
+        -- paths to the analyzers you need, using those for python and java in this example
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcsharp.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
       },
     },
 
-    filetypes = { 'python', 'java' }
+    filetypes = { 'python', 'java', 'cs', 'xml', 'go' }
   })
 end
 
@@ -82,8 +90,10 @@ function M.setup()
     lspconfig.azure_pipelines_ls,
     lspconfig.bashls,
     lspconfig.ccls,
+    lspconfig.cssls,
     lspconfig.docker_compose_language_service,
     lspconfig.dockerls,
+    lspconfig.dotls,
     lspconfig.esbonio,
     lspconfig.groovyls,
     lspconfig.marksman,
@@ -93,6 +103,7 @@ function M.setup()
     lspconfig.rust_analyzer,
     lspconfig.sourcery,
     lspconfig.tailwindcss,
+    lspconfig.taplo,
     lspconfig.tsserver,
     lspconfig.vimls,
   }
@@ -235,6 +246,10 @@ function M.setup()
       xml = {
         format = {
           enabled = true,
+          maxLineWidth = 200,
+          preserveAttributeLineBreaks = false,
+          preservedNewlines = 2,
+          spaceBeforeEmptyCloseTag = true,
         }
       }
     }
@@ -256,6 +271,12 @@ function M.setup()
           }, require('schemastore').json.schemas()),
         validate = { enable = true },
       }
+    }
+  }
+
+  lspconfig.typst_lsp.setup {
+    settings = {
+      exportPdf = "onType" -- Choose onType, onSave or never.
     }
   }
 end

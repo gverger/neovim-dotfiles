@@ -14,15 +14,28 @@ local function current_line()
   return lines[1] or ""
 end
 
+local function uuid_fill(template)
+  return string.gsub(template, '[xy]', function (char)
+    local v = (char == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+    return string.format('%x', v)
+  end)
+end
+
 math.randomseed(os.time())
 
 return {
-  s("uuid", f(function ()
-    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    return string.gsub(template, '[xy]', function (char)
-      local v = (char == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
-      return string.format('%x', v)
-    end)
+  s("uuid", {
+    c(1, {
+      f(function ()
+        return uuid_fill("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx")
+      end),
+      f(function ()
+        return uuid_fill("xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx")
+      end),
+    })
+  }),
+  s("mrid", f(function ()
+    return uuid_fill("_xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx")
   end)),
   s("=", f(function ()
     local operation = loadstring("return " .. current_line())

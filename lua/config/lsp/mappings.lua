@@ -4,6 +4,7 @@ local M = {}
 
 function M.setup()
   vim.cmd([[
+  nnoremap <silent><leader>ff <cmd> lua vim.lsp.buf.format({async = true})<CR>
   nnoremap <silent><c-]> <cmd> lua vim.lsp.buf.definition()<CR>
   nnoremap <silent><leader>rn <cmd> lua vim.lsp.buf.rename()<CR>
   nnoremap <silent>K <cmd> lua vim.lsp.buf.hover()<CR>

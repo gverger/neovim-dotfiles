@@ -23,6 +23,7 @@ local function next_line_contains_cursor(node)
 end
 
 return {
+  s("writeline", fmt([[Console.WriteLine($"{}");]], { i(1, "message") })),
   s("summary",
   fmt([[{}]], {f(function ()
     local tree = ts.get_parser(0, 'c_sharp')
