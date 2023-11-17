@@ -76,7 +76,12 @@ local mason_packages = "$HOME/.local/share/nvim/mason/packages/"
 local bundles = {
   vim.fn.glob(mason_packages .. "java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", 1)
 }
-vim.list_extend(bundles, vim.split(vim.fn.glob(mason_packages .. "java-test/extension/server/*.jar", 1), "\n"))
+
+local vscode_java_test = "$HOME/bin/vscode-java-test/"
+-- when using mason
+-- local vscode_java_test = mason_packages .. "java-test/extension/"
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(vscode_java_test .. "server/*.jar", 1), "\n"))
 
 bundles = vim.tbl_filter(function(s)
   return not vim.endswith(s, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
@@ -212,7 +217,7 @@ vim.keymap.set({ "n" }, "<leader>dc", function()
   require'jdtls'.test_class()
 end)
 
-vim.keymap.set({ "n" }, "gs", require('jdtls').super_implementation)
+vim.keymap.set({ "n" }, "gu", require('jdtls').super_implementation)
 LSP
 nnoremap <leader>dg 'T
 

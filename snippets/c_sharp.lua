@@ -8,13 +8,18 @@ local function node_text(node)
   return ts.get_node_text(node, 0)
 end
 
-local function match_for(name, query, match)
+local function matches_for(name, query, match)
+  local res = {}
   for id, node in pairs(match) do
     if name == query.captures[id] then
-      return node
+      table.insert(res, node)
     end
   end
-  return nil
+  return res
+end
+
+local function match_for(name, query, match)
+  return matches_for(name, query, match)[1]
 end
 
 local function next_line_contains_cursor(node)
@@ -24,6 +29,9 @@ end
 
 return {
   s("writeline", fmt([[Console.WriteLine($"{}");]], { i(1, "message") })),
+  s("xmlAttr", fmt([[
+  [XmlAttribute("{}")]
+  public {} {} {{ get; set; }}]], {rep(1, ""), i(2, "int"), i(1)})),
   s("summary",
   fmt([[{}]], {f(function ()
     local tree = ts.get_parser(0, 'c_sharp')
@@ -32,8 +40,12 @@ return {
 
     local query = ts.query.parse('c_sharp', [[
     [
-    (method_declaration type: _ @ret name: _ @name parameters: (parameter_list (parameter name: _ @par))) @decl
+    (method_declaration type: _ @ret name: _ @name parameters: (parameter_list )+ @list) @decl
     ]
+    ]])
+
+    local param_query = ts.query.parse('c_sharp', [[
+    (parameter name: _ @par)
     ]])
 
     local next_method_line = -1
@@ -47,9 +59,15 @@ return {
           "/// "..node_text(name_node),
           "/// </summary>",
         }
-        for id, node in pairs(match) do
-          if "par" == query.captures[id] then
-            table.insert(res, "/// <param name=\""..node_text(node).."\">desc</param>")
+        local param_list = matches_for('list', query, match)
+        for _, node in pairs(param_list) do
+          if node ~= nil then
+            for pattern, m, metadata in param_query:iter_matches(node, bufnr) do
+              local params = matches_for('par', param_query, m)
+              for _, param_node in pairs(params) do
+                table.insert(res, "/// <param name=\""..node_text(param_node).."\">desc</param>")
+              end
+            end
           end
         end
         table.insert(res, "/// <returns>A "..node_text(match_for("ret", query, match)).."</returns>")
@@ -69,13 +87,4 @@ return {
             local relative_path = vim.fn.expand('%:p:.:h')
             return relative_path:gsub('/', '.')
         end) })),
-
-    s('cls',
-        fmt([[
-        class {}
-        {{
-            {}
-        }}]], { f(function()
-            return vim.fn.expand('%:t'):gsub(".cs$", '')
-        end), i(0) })),
 }

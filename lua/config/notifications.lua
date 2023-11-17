@@ -18,28 +18,57 @@ function M.setup()
       },
       hover = {
         enabled = true,
+        silence = true,
       },
       progress = {
-        enabled = false,
-      },
-    },
-    cmdline = {
-      enabled = false,
-    },
-    messages = {
-      enabled = false,
+        enabled = true,
+      }
     },
     presets = {
-      lsp_doc_border = true
+      bottom_search = true, -- use a classic bottom cmdline for search
+      command_palette = true, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
+      inc_rename = false, -- enables an input dialog for inc-rename.nvim
+      lsp_doc_border = true, -- add a border to hover docs and signature help
     },
-    notify = {
-      enabled = false,
+    messages = {
+      enabled = true,
+      view_search = false,
+      view = "mini",
+    },
+    cmdline = {
+      view = "cmdline"
     },
     routes = {
       {
+        filter = { event = "msg_show", kind = "return_prompt" },
+        opts = { skip = true },
+      },
+      {
         filter = { find = "No information available" },
         opts = { stop = true },
-      }
+      },
+      {
+        view = "mini",
+        filter = { event = "msg_showmode" },
+      },
+      {
+        filter = { find = "Publish Diagnostics" },
+        opts = { stop = true },
+      },
+      {
+        filter = { find = "Validate documents" },
+        opts = { stop = true },
+      },
+      {
+        -- skip "file written" messages
+        filter = { event = "msg_show", kind = '' },
+        opts = { stop = true },
+      },
+      {
+        filter = { find = "<node" },
+        opts = { stop = true },
+      },
     },
   })
 

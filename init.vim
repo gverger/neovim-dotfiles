@@ -89,6 +89,7 @@ Plug 'mfussenegger/nvim-jdtls'
 Plug 'mfussenegger/nvim-lint'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'b0o/schemastore.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
 
@@ -187,7 +188,7 @@ if HasPlug("neoformat")
 endif
 
 " set shortmess+=c
-set shortmess=aF " short messages + do not show file name when switching to the file
+set shortmess=aFW " short messages + do not show file name when switching to the file
 
 
 if HasPlug("LuaSnip")
@@ -276,18 +277,27 @@ if HasPlug("lightline.vim")
         \             [ 'currentfunction', 'lsp_diagnostic_hints', 'readonly', 'modified', 'filename' ] ],
         \   'right': [ [ 'lineinfo' ],
         \              [ 'filetype' ],
-        \              [ 'fugitive' ]]
+        \              [ 'fugitive' ],
+        \              [ 'macro' ] ]
         \ },
         \ 'component_function': {
         \   'readonly': 'LightlineReadonly',
         \   'fugitive': 'LightlineFugitive',
         \   'currentfunction': 'CocCurrentFunction',
         \   'lsp_diagnostic_hints': 'LspHints',
-        \   'filename': 'Filename'
+        \   'filename': 'Filename',
+        \   'macro': 'Macro'
         \ },
         \ 'subseparator': { 'left': "\xee\x82\xb9", 'right': "\xee\x82\xbb" },
         \ 'separator' : { 'left': "\xee\x82\xb8", 'right': "\xee\x82\xba" },
         \ }
+
+  function! Macro()
+    if ! luaeval("require('noice').api.statusline.mode.has()")
+      return ""
+    endif
+    return luaeval("require('noice').api.statusline.mode.get()")
+  endfunction
 
   function! LightlineReadonly()
     return &readonly ? '' : ''
@@ -448,6 +458,7 @@ augroup MyColors
   autocmd ColorScheme * highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
   autocmd ColorScheme * highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 
+  autocmd ColorScheme * highlight! NoiceCursor guibg=#52AD70 guifg=#C586C0
 
 augroup end
 

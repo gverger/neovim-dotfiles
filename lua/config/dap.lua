@@ -138,10 +138,17 @@ function M.setup()
     return
   end
 
+  if not utils.has_plug('nvim-dap-virtual-text') then
+    vim.notify('dap-virtual-text not installed')
+    return
+  end
+
   local dap = require("dap")
   local dapui = require("dapui")
+  local dapvt = require("nvim-dap-virtual-text")
 
   dapui.setup()
+  dapvt.setup()
 
   configure_csharp(dap)
 

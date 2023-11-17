@@ -75,7 +75,8 @@ function M.setup()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   local on_attach = function(client, bufnr)
-    require('config.lsp.codelens').on_attach(client, bufnr)
+    -- don't use codelens yet python lsp doesn't execute any of them
+    -- require('config.lsp.codelens').on_attach(client, bufnr)
     vim.cmd([[
     augroup lsp_document_highlight
     autocmd! * <buffer>
@@ -101,7 +102,7 @@ function M.setup()
     lspconfig.rnix,
     lspconfig.ruby_ls,
     lspconfig.rust_analyzer,
-    lspconfig.sourcery,
+    -- lspconfig.sourcery,
     lspconfig.tailwindcss,
     lspconfig.taplo,
     lspconfig.tsserver,
