@@ -115,7 +115,8 @@ Plug 'folke/noice.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
+" Plug 'hrsh7th/cmp-path'
+Plug 'FelipeLema/cmp-async-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'rcarriga/cmp-dap'
@@ -270,11 +271,10 @@ if HasPlug("lightline.vim")
   let g:lightline = {
         \ 'component': {
         \   'lineinfo': "\ %3l\xee\xaa\x9d\xee\xaa\x9f%-2v%<",
-        \   'filename': '%f'
         \ },
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'currentfunction', 'lsp_diagnostic_hints', 'readonly', 'modified', 'filename' ] ],
+        \             [ 'currentfunction', 'lsp_diagnostic_hints', 'readonly', 'is_modified', 'filename' ] ],
         \   'right': [ [ 'lineinfo' ],
         \              [ 'filetype' ],
         \              [ 'fugitive' ],
@@ -282,6 +282,7 @@ if HasPlug("lightline.vim")
         \ },
         \ 'component_function': {
         \   'readonly': 'LightlineReadonly',
+        \   'is_modified': 'LightlineModified',
         \   'fugitive': 'LightlineFugitive',
         \   'currentfunction': 'CocCurrentFunction',
         \   'lsp_diagnostic_hints': 'LspHints',
@@ -297,6 +298,10 @@ if HasPlug("lightline.vim")
       return ""
     endif
     return luaeval("require('noice').api.statusline.mode.get()")
+  endfunction
+
+  function! LightlineModified()
+    return &modified ? "\xee\x89\x80" : ''
   endfunction
 
   function! LightlineReadonly()
@@ -596,7 +601,6 @@ lua <<EOF
 
     snippet = {
       expand = function(args)
-         -- vim.fn["vsnip#anonymous"](args.body)
          ls.lsp_expand(args.body)
       end,
     },
@@ -630,7 +634,8 @@ lua <<EOF
       { name = 'luasnip' },
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
-      { name = 'path', },
+      -- { name = 'path', },
+      { name = 'async_path' },
       { name = 'orgmode' },
       { name = 'neorg' },
     }, {
@@ -650,7 +655,7 @@ lua <<EOF
          nvim_lsp = "[lsp]",
          luasnip = "[snip]",
          nvim_lua = "[lua]",
-         path = "[path]",
+         async_path = "[path]",
          orgmode = "[org]",
          nvim_lsp_signature_help = "[sig]",
        })
@@ -665,9 +670,10 @@ lua <<EOF
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
+      { name = 'async_path' },
+      { name = 'cmdline' },
+    }, {
       { name = 'buffer' },
-      { name = 'path' },
-      { name = 'cmdline' }
     })
   })
 
