@@ -106,25 +106,36 @@ local function configure_csharp(dap)
 end
 
 local function configure_style()
-  vim.api.nvim_set_hl_ns(1234)
-  vim.api.nvim_set_hl(1234, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f', bold = true })
-  vim.api.nvim_set_hl(1234, 'DapLine', { ctermbg = 0, bg = '#31353f' })
-  vim.api.nvim_set_hl(1234, 'DapLogPoint', { ctermbg = 0, fg = '#61afef', bg = '#31353f' })
-  vim.api.nvim_set_hl(1234, 'DapStopped', { ctermbg = 0, fg = '#98c379', bg = '#31353f' })
-
   vim.fn.sign_define('DapBreakpoint', {
-    text = '\xee\xae\x8b',
+    text = '\xee\xae\xb4',
     texthl = 'DapBreakpoint',
     linehl = 'DapLine',
     numhl = 'DapBreakpoint'
   })
-
-  vim.fn.sign_define('DapBreakpointCondition',
-    { text = '?', texthl = 'DapBreakpoint', linehl = 'DapLine', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapBreakpointRejected',
-    { text = '!', texthl = 'DapBreakpoint', linehl = 'DapLine', numhl = 'DapBreakpoint' })
-  vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLine', numhl = 'DapLogPoint' })
-  vim.fn.sign_define('DapStopped', { text = '\xee\xab\x93', texthl = 'DapStopped', linehl = 'DapLine', numhl = 'DapStopped' })
+  vim.fn.sign_define('DapBreakpointCondition', {
+    text = '?',
+    texthl = 'DapBreakpoint',
+    linehl = 'DapLine',
+    numhl = 'DapBreakpoint',
+  })
+  vim.fn.sign_define('DapBreakpointRejected', {
+    text = '!',
+    texthl = 'DapBreakpoint',
+    linehl = 'DapLine',
+    numhl = 'DapBreakpoint',
+  })
+  vim.fn.sign_define('DapLogPoint', {
+    text = '',
+    texthl = 'DapLogPoint',
+    linehl = 'DapLine',
+    numhl = 'DapLogPoint',
+  })
+  vim.fn.sign_define('DapStopped', {
+    text = '\xee\xab\x93',
+    texthl = 'DapStopped',
+    linehl = 'DapLine',
+    numhl = 'DapStopped',
+  })
 end
 
 function M.setup()
@@ -138,50 +149,10 @@ function M.setup()
     return
   end
 
-  if not utils.has_plug('nvim-dap-virtual-text') then
-    vim.notify('dap-virtual-text not installed')
-    return
-  end
-
   local dap = require("dap")
   local dapui = require("dapui")
-  -- local dapvt = require("nvim-dap-virtual-text")
-
-  -- local a = require'plenary.async'
-  -- local sender, receiver = a.control.channel.mpsc()
 
   dapui.setup()
-  -- dapvt.setup({
-    --- A callback that determines how a variable is displayed or whether it should be omitted
-    --- @param variable Variable https://microsoft.github.io/debug-adapter-protocol/specification#Types_Variable
-    --- @param buf number
-    --- @param stackframe dap.StackFrame https://microsoft.github.io/debug-adapter-protocol/specification#Types_StackFrame
-    --- @param node userdata tree-sitter node identified as variable definition of reference (see `:h tsnode`)
-    --- @param options nvim_dap_virtual_text_options Current options for nvim-dap-virtual-text
-    --- @return string|nil A text how the virtual text should be displayed or nil, if this variable shouldn't be displayed
-    --- @diagnostic disable-next-line: unused-local
-    -- display_callback = function(variable, buf, stackframe, node, options)
-    --
-    --   dap.session():evaluate(variable.name .. ".toString()", function (err, resp)
-    --     local res = "no value"
-    --     if err ~= nil then
-    --       res = "err"
-    --     else
-    --       vim.print(resp)
-    --       res = resp.result
-    --     end
-    --     sender.send(res)
-    --   end)
-    --
-    --   local res = receiver.recv()
-    --   vim.print(res)
-    --   if options.virt_text_pos == 'inline' then
-    --     return ' = ' .. res
-    --   else
-    --     return variable.name .. ' = ' .. res
-    --   end
-    -- end,
-  -- })
 
   configure_csharp(dap)
 

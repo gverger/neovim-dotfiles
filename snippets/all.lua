@@ -21,6 +21,15 @@ local function uuid_fill(template)
   end)
 end
 
+local function all_days()
+  local alldays = {}
+  for i = -31, 31, 1 do
+    local date = os.date("*t", os.time() + 24*60*60 * i)
+    table.insert(alldays, t( days[date.wday] .. " " .. date.day .. " " .. months[date.month]))
+  end
+  return alldays
+end
+
 math.randomseed(os.time())
 
 return {
@@ -87,6 +96,9 @@ return {
   f(function ()
     return os.date("%A %d %B")
   end)),
+  s("jour", {
+    c(1, all_days()),
+  }),
   s("now", {
     c(1, {
       f(function ()

@@ -89,7 +89,7 @@ Plug 'mfussenegger/nvim-jdtls'
 Plug 'mfussenegger/nvim-lint'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
-Plug 'theHamsta/nvim-dap-virtual-text'
+" Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'b0o/schemastore.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
 
@@ -464,6 +464,11 @@ augroup MyColors
   autocmd ColorScheme * highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 
   autocmd ColorScheme * highlight! NoiceCursor guibg=#52AD70 guifg=#C586C0
+
+  autocmd ColorScheme * highlight! DapBreakpoint guifg=#993939 guibg=NONE
+  autocmd ColorScheme * highlight! DapLine guibg=NONE
+  autocmd ColorScheme * highlight! DapLogPoint guifg=#61afef guibg=NONE
+  autocmd ColorScheme * highlight! DapStopped guifg=#98c379 guibg=NONE
 
 augroup end
 
