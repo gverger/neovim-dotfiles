@@ -596,13 +596,12 @@ lua <<EOF
 
   cmp.setup({
     enabled = function()
-      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-      or require("cmp_dap").is_dap_buffer()
+      return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
     end,
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
-      },
+    },
 
     snippet = {
       expand = function(args)
@@ -635,11 +634,15 @@ lua <<EOF
       end
     end, { "i", "s" }),
     }),
+
+    experimental = {
+      ghost_text = true,
+    },
+
     sources = cmp.config.sources({
-      { name = 'luasnip' },
       { name = 'nvim_lsp' },
+      { name = 'luasnip' },
       { name = 'nvim_lua' },
-      -- { name = 'path', },
       { name = 'async_path' },
       { name = 'orgmode' },
       { name = 'neorg' },

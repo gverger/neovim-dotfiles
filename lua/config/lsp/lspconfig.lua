@@ -88,7 +88,7 @@ function M.setup()
 
   -- LSP servers that only need the default configuration
   local simple_lsps = {
-    lspconfig.azure_pipelines_ls,
+    -- lspconfig.azure_pipelines_ls,
     lspconfig.bashls,
     lspconfig.ccls,
     lspconfig.cssls,
@@ -273,6 +273,18 @@ function M.setup()
         validate = { enable = true },
       }
     }
+  }
+
+  lspconfig.yamlls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      yaml = {
+        schemas = {
+          ["/home/gverger/.config/custom/itools-config-schema.json"] = "*/.itools/config.yml",
+        },
+      },
+    },
   }
 
   lspconfig.typst_lsp.setup {
