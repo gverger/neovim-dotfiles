@@ -72,7 +72,7 @@ local function setup_orgmode()
       STARTED = ':foreground lightblue',
     },
   }
-  utils.noremap("n", "<leader>n", ':Telescope find_files search_dirs={"~/norg"} path_display={"truncate"} <CR>')
+  utils.noremap("n", "<leader>n", ':Telescope find_files search_dirs={"~/norg/notes"} path_display={"truncate"} <CR>')
 end
 
 function M.setup()

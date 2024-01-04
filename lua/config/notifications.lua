@@ -40,10 +40,10 @@ function M.setup()
       view = "cmdline"
     },
     routes = {
-      {
-        filter = { event = "msg_show", kind = "return_prompt" },
-        opts = { skip = true },
-      },
+      -- {
+      --   filter = { event = "msg_show", kind = "return_prompt" },
+      --   opts = { skip = true },
+      -- },
       {
         filter = { find = "No information available" },
         opts = { stop = true },

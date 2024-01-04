@@ -161,12 +161,20 @@ function M.setup()
     end
   end
 
-  lspconfig.csharp_ls.setup {
-    cmd = { "/home/gverger/bin/csharp-ls" },
-    -- filetypes = { "cs", "csharp" },
+  -- lspconfig.csharp_ls.setup {
+  --   cmd = { "/home/gverger/bin/csharp-ls" },
+  --   -- filetypes = { "cs", "csharp" },
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   root_dir = root_directory,
+  -- }
+
+  lspconfig.omnisharp.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    root_dir = root_directory,
+    enable_editorconfig_support = true,
+    enable_roslyn_analyzers = true,
+    organize_imports_on_format = true,
   }
 
   lspconfig.gopls.setup {
