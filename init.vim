@@ -102,7 +102,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
 " Plug 'sam4llis/nvim-tundra'
 " Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 " Plug 'Shatur/neovim-ayu'
-Plug 'savq/melange'
+Plug 'rebelot/kanagawa.nvim'
 " Plug 'nyoom-engineering/oxocarbon.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
@@ -429,41 +429,11 @@ nnoremap <CR> :noh<CR><CR>
 augroup MyColors
   autocmd!
 
-  " autocmd ColorScheme * highlight CursorLine cterm=NONE ctermbg=darkgrey gui=NONE guibg=254
-  " autocmd ColorScheme * highlight CursorLine cterm=undercurl guibg=NONE gui=underline
-
   autocmd ColorScheme * highlight ColorColumn ctermbg=darkgrey guibg=darkgrey
   autocmd BufWinEnter * syntax match ExtraWhitespace /\s\+$/
 
-  autocmd ColorScheme * hi NormalFloat guibg=#292522
-  " autocmd ColorScheme * hi FloatBorder guibg=#292522 guifg=#915245
-  autocmd ColorScheme * hi String gui=NONE " disable italics in Strings
-
-  " autocmd ColorScheme * hi clear SignColumn
-
-  " autocmd ColorScheme * hi link GitSignsChange Function  " GitSignsChange has a blue background
-  " autocmd ColorScheme * hi DiffDelete guifg=NONE
-
   autocmd ColorScheme * hi clear Folded
   autocmd ColorScheme * hi link Folded Comment
-  " gray
-  autocmd ColorScheme * highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-  " blue
-  " autocmd ColorScheme * highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
-  " autocmd ColorScheme * highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-  " light blue
-  autocmd ColorScheme * highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
-  autocmd ColorScheme * highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
-  autocmd ColorScheme * highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
-  " pink
-  autocmd ColorScheme * highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
-  autocmd ColorScheme * highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
-  " front
-  autocmd ColorScheme * highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
-  autocmd ColorScheme * highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
-  autocmd ColorScheme * highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
-
-  autocmd ColorScheme * highlight! NoiceCursor guibg=#52AD70 guifg=#C586C0
 
   autocmd ColorScheme * highlight! DapBreakpoint guifg=#993939 guibg=NONE
   autocmd ColorScheme * highlight! DapLine guibg=NONE
