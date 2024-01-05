@@ -9,6 +9,17 @@ function M.setup()
   end
 
   require 'nvim-treesitter.configs'.setup {
+    ensure_installed = {
+      "lua",
+      "c",
+      "vim",
+      "vimdoc",
+      "java",
+      "python",
+      "c_sharp",
+      "ruby",
+      "bash"
+    },
     indent = {
       enable = false,
     },
@@ -48,9 +59,9 @@ function M.setup()
       lint_events = { "BufWrite", "CursorHold" },
     },
   }
-  require'treesitter-context'.setup{
-    enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
-    mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  require 'treesitter-context'.setup {
+    enable = false,   -- Enable this plugin (Can be enabled/disabled later via commands)
+    mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
   }
   vim.cmd([[
     autocmd ColorScheme * hi TreesitterContext guibg=#444444

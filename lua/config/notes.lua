@@ -76,8 +76,8 @@ local function setup_orgmode()
 end
 
 function M.setup()
-  setup_neorg()
-  setup_orgmode()
+  -- setup_neorg()
+  -- setup_orgmode()
 end
 
 return M

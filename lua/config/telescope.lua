@@ -65,6 +65,8 @@ function M.setup()
   utils.noremap("n", "<leader>tj", ":Telescope lsp_document_symbols<CR>")
   utils.noremap("n", "<leader>tt", ":Telescope tags<CR>")
   utils.noremap("n", "<leader>tr", ':Telescope resume<CR>')
+
+  utils.noremap("n", "<leader>n", ':Telescope find_files search_dirs={"~/norg/notes"} path_display={"truncate"} <CR>')
 end
 
 return M

@@ -31,6 +31,8 @@ function M.setup()
     autocmd ColorScheme * hi LspCodeLens guifg=#c1a78e gui=italic
     autocmd ColorScheme * hi LspCodeLensSeparator guifg=#c1a78e gui=italic
   ]])
+
+  vim.api.nvim_set_hl(0, '@lsp.mod.readonly', {}) -- readonly makes java colors flicker
 end
 
 return M

@@ -72,10 +72,8 @@ Plug 'alok/notational-fzf-vim'
 " Navigation
 Plug 'unblevable/quick-scope'
 Plug 'kana/vim-textobj-user'
-" Plug 'kana/vim-textobj-line'
 Plug 'thinca/vim-textobj-between'
 Plug 'Julian/vim-textobj-variable-segment', { 'branch': 'main' }
-" Plug 'b4winckler/vim-angry' " argument text objects
 Plug 'ggandor/leap.nvim'
 
 " Languages
@@ -115,7 +113,6 @@ Plug 'folke/noice.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-buffer'
-" Plug 'hrsh7th/cmp-path'
 Plug 'FelipeLema/cmp-async-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
@@ -394,7 +391,7 @@ if HasPlug("neotest")
 lua<<NEOTEST
 require("neotest").setup({
   adapters = {
-  require("neotest-vim-test")({ignore_file_types = {}}),
+    require("neotest-vim-test")({ignore_file_types = {}}),
   },
 })
 NEOTEST
@@ -671,7 +668,6 @@ lua <<EOF
 vim.keymap.set("i", "<c-u>", require "luasnip.extras.select_choice", { silent = true })
 EOF
 endif
-
 
 nnoremap <silent><c-]> <cmd> lua vim.lsp.buf.definition()<CR>
 nnoremap <silent><c-$> <cmd> lua vim.lsp.buf.definition()<CR>

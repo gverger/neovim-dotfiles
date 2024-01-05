@@ -3,7 +3,7 @@ local M = {}
 ---check if the plugin is installed
 ---@param name string
 function M.has_plug(name)
-  return vim.g.plugs[name] ~= nil
+  return true
 end
 
 ---map a key

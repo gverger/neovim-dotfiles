@@ -95,10 +95,14 @@ vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/openjdk-17.0.2/")
 local config = {
     on_attach = on_attach,
     capabilities = capabilities,
-    cmd = {'/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true', '--jvm-arg=-DMARI=true'},
+    cmd = {'/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true'},
     root_dir = root_directory(),
     settings = {
       java = {
+        autobuild = { enabled = false },
+        maxConcurrentBuilds = 8,
+        signatureHelp = { enabled = true };
+        contentProvider = { preferred = 'fernflower' };
         eclipse = {
           downloadSources = true,
         },

@@ -3,17 +3,13 @@ local M = {}
 -- local utils = require('config.utils')
 
 function M.setup()
-  vim.cmd([[
-  nnoremap <silent><leader>ff <cmd> lua vim.lsp.buf.format({async = true})<CR>
-  nnoremap <silent><c-]> <cmd> lua vim.lsp.buf.definition()<CR>
-  nnoremap <silent><leader>rn <cmd> lua vim.lsp.buf.rename()<CR>
-  nnoremap <silent>K <cmd> lua vim.lsp.buf.hover()<CR>
-  nnoremap <silent>L <cmd> lua vim.lsp.buf.document_highlight()<CR>
-  nnoremap <silent><leader>ch <cmd> lua vim.lsp.buf.code_action()<CR>
-  vnoremap <silent><leader>ch <cmd> lua vim.lsp.buf.range_code_action()<CR>
-    " autocmd CursorMoved,CursorMovedI,BufHidden,InsertEnter,InsertCharPre,WinLeave <buffer> lua vim.lsp.buf.clear_references()
-    " autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-  ]])
+  vim.keymap.set("n", "<leader>ff", function() vim.lsp.buf.format({async = true}) end, { noremap = true, silent = true })
+  vim.keymap.set("n", "<c-]>", vim.lsp.buf.definition, { noremap = true, silent = true })
+  vim.keymap.set("n", "<c-$>", vim.lsp.buf.definition, { noremap = true, silent = true })
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { noremap = true, silent = true })
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, silent = true })
+  vim.keymap.set("n", "<leader>ch", vim.lsp.buf.code_action, { noremap = true, silent = true })
+  vim.keymap.set("v", "<leader>ch", vim.lsp.buf.code_action, { noremap = true, silent = true })
 end
 
 return M

@@ -24,22 +24,24 @@ local function manual_sonarlint_configuration()
         -- Ensure that sonarlint-language-server uses stdio channel
         '-stdio',
         '-analyzers',
-        -- paths to the analyzers you need, using those for python and java in this example
+
+        -- only 3 working atm
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcsharp.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
+
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcsharp.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
       },
     },
 
-    filetypes = { 'python', 'java', 'cs', 'xml', 'go' }
+    filetypes = { 'python', 'java', 'cpp' }
   })
 end
 
@@ -98,7 +100,7 @@ function M.setup()
     lspconfig.esbonio,
     lspconfig.groovyls,
     lspconfig.marksman,
-    lspconfig.mosel,
+    -- lspconfig.mosel,
     lspconfig.rnix,
     lspconfig.ruby_ls,
     lspconfig.rust_analyzer,
