@@ -76,7 +76,7 @@ function M.setup()
   -- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-  local on_attach = function(client, bufnr)
+  local function on_attach(client, bufnr)
     -- don't use codelens yet python lsp doesn't execute any of them
     -- require('config.lsp.codelens').on_attach(client, bufnr)
     vim.cmd([[
@@ -90,7 +90,6 @@ function M.setup()
 
   -- LSP servers that only need the default configuration
   local simple_lsps = {
-    -- lspconfig.azure_pipelines_ls,
     lspconfig.bashls,
     lspconfig.cssls,
     lspconfig.docker_compose_language_service,
@@ -99,11 +98,9 @@ function M.setup()
     lspconfig.esbonio,
     lspconfig.groovyls,
     lspconfig.marksman,
-    -- lspconfig.mosel,
     lspconfig.rnix,
     lspconfig.ruby_ls,
     lspconfig.rust_analyzer,
-    -- lspconfig.sourcery,
     lspconfig.tailwindcss,
     lspconfig.taplo,
     lspconfig.tsserver,
@@ -117,13 +114,15 @@ function M.setup()
     }
   end
 
+
   lspconfig.ccls.setup {
-    on_attach =  function(client, bufnr)
+    on_attach = function(client, bufnr)
       on_attach(client, bufnr)
-      client.offset_encoding = "utf-16"
     end,
     capabilities = capabilities,
-    offset_encoding = "utf-16",
+    init_options = {
+      compilationDatabaseDirectory = ".",
+    }
   }
 
   -- Take care of Poetry: if this is a poetry project, pyright should be a dependency

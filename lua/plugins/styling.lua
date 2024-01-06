@@ -65,6 +65,10 @@ return {
             filter = { find = "<node" },
             opts = { stop = true },
           },
+          {
+            filter = { find = "multiple different client offset_encodings" },
+            opts = { stop = true },
+          },
         },
       })
     end,

@@ -18,7 +18,10 @@ function M.setup()
       "python",
       "c_sharp",
       "ruby",
-      "bash"
+      "bash",
+      "markdown",
+      "markdown_inline",
+      "regex",
     },
     indent = {
       enable = false,
