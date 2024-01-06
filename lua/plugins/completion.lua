@@ -78,7 +78,7 @@ return {
           { name = 'luasnip' },
           { name = 'nvim_lua' },
           { name = 'async_path' },
-          { name = 'orgmode' },
+          -- { name = 'orgmode' },
           { name = 'neorg' },
         }, {
           {
@@ -99,7 +99,7 @@ return {
               luasnip = "[snip]",
               nvim_lua = "[lua]",
               async_path = "[path]",
-              orgmode = "[org]",
+              -- orgmode = "[org]",
               nvim_lsp_signature_help = "[sig]",
             })
           }),
@@ -142,29 +142,10 @@ return {
     config = function()
       local ls = require('luasnip')
 
-      vim.keymap.set({ "i", "s" }, "<c-j>", function()
-        if ls.expandable() then
-          ls.expand()
-        end
-      end, { silent = true })
-
-      vim.keymap.set({ "i", "s" }, "<c-l>", function()
-        if ls.jumpable(1) then
-          ls.jump(1)
-        end
-      end, { silent = true })
-
-      vim.keymap.set({ "i", "s" }, "<c-k>", function()
-        if ls.jumpable(-1) then
-          ls.jump(-1)
-        end
-      end, { silent = true })
-
-      vim.keymap.set({ "i" }, "<c-h>", function()
-        if ls.choice_active() then
-          ls.change_choice(1)
-        end
-      end, { silent = true })
+      vim.keymap.set({ "i", "s" }, "<c-j>", function() if ls.expandable() then ls.expand() end end, { silent = true })
+      vim.keymap.set({ "i", "s" }, "<c-l>", function() if ls.jumpable(1) then ls.jump(1) end end, { silent = true })
+      vim.keymap.set({ "i", "s" }, "<c-k>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
+      vim.keymap.set({ "i" }, "<c-h>", function() if ls.choice_active() then ls.change_choice(1) end end, { silent = true })
 
       require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
       require("luasnip.loaders.from_vscode").load() -- for friendly-snippets

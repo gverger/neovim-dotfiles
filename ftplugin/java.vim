@@ -100,7 +100,6 @@ local config = {
     settings = {
       java = {
         autobuild = { enabled = false },
-        maxConcurrentBuilds = 8,
         signatureHelp = { enabled = true };
         contentProvider = { preferred = 'fernflower' };
         eclipse = {

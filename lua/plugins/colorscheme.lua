@@ -1,5 +1,12 @@
 return {
   {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function ()
+      require('rose-pine').setup()
+    end
+  },
+  {
     "rebelot/kanagawa.nvim",
     lazy = false,
     priority = 1000, -- load it first

@@ -14,7 +14,7 @@ return {
   'tpope/vim-rhubarb',
   'tpope/vim-eunuch',
   'tpope/vim-projectionist',
-  'jeetsukumaran/vim-filebeagle',
+  -- 'jeetsukumaran/vim-filebeagle',
   {
     'numToStr/Comment.nvim',
     config = function()

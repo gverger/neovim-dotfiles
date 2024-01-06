@@ -92,7 +92,6 @@ function M.setup()
   local simple_lsps = {
     -- lspconfig.azure_pipelines_ls,
     lspconfig.bashls,
-    lspconfig.ccls,
     lspconfig.cssls,
     lspconfig.docker_compose_language_service,
     lspconfig.dockerls,
@@ -117,6 +116,15 @@ function M.setup()
       capabilities = capabilities,
     }
   end
+
+  lspconfig.ccls.setup {
+    on_attach =  function(client, bufnr)
+      on_attach(client, bufnr)
+      client.offset_encoding = "utf-16"
+    end,
+    capabilities = capabilities,
+    offset_encoding = "utf-16",
+  }
 
   -- Take care of Poetry: if this is a poetry project, pyright should be a dependency
   local pyright_cmd = lspconfig.pyright.cmd

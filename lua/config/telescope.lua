@@ -38,6 +38,11 @@ function M.setup()
         layout_strategy = 'vertical'
       },
     },
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown()
+      }
+    }
   }
   require('telescope').load_extension('fzf')
   require('telescope').load_extension('ui-select')

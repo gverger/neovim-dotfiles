@@ -8,9 +8,7 @@ function M.setup()
     return
   end
 
-  if utils.has_plug('telescope.nvim') then
-    require("telescope").load_extension("noice")
-  end
+  require("telescope").load_extension("noice")
 end
 
 return M
