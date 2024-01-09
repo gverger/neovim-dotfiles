@@ -14,7 +14,6 @@ return {
         'saadparwaiz1/cmp_luasnip',
         dependencies = {
           'L3MON4D3/LuaSnip',
-          'rafamadriz/friendly-snippets',
         },
       },
     },
@@ -178,5 +177,8 @@ return {
       })
       -- ls.filetype_set("cs", { "csharp" })
     end,
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+    }
   }
 }

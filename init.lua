@@ -51,10 +51,24 @@ set.spell = false
 set.tagrelative = false
 set.exrc = true -- use local vimrc files
 set.completeopt = "menu,menuone,noselect"
+vim.cmd [[
+augroup MyComments
+  autocmd!
+  " Don't automatically continue comments after newline
+  autocmd BufNewFile,BufRead * setlocal formatoptions-=o
+augroup end
+]]
 
 vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
 vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
+
+-- vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { noremap = true })
+-- vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { noremap = true })
+-- vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true })
+-- vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true })
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
 
 -- Not sure it is useful. Disabling it for now
 -- vim.g.vim_markdown_frontmatter = 1

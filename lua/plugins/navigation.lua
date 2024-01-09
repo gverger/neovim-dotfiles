@@ -14,7 +14,7 @@ return {
         ["g."] = "actions.toggle_hidden",
         ["g?"] = "actions.show_help",
         ["q"] = "actions.close",
-        ["v"] = function()
+        ["<C-v>"] = function()
           require('oil.actions').select_vsplit.callback()
           require('oil.actions').close.callback()
         end,
