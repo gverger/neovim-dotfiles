@@ -6,6 +6,12 @@ return {
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
     },
+    opts = {
+      registries = {
+        'github:nvim-java/mason-registry',
+        'github:mason-org/mason-registry',
+      },
+    },
   },
   {
     'https://gitlab.com/schrieveslaach/sonarlint.nvim',

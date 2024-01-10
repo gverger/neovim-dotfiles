@@ -60,7 +60,7 @@ return {
   {
     'junegunn/fzf.vim',
     build = function()
-      vim.cmd("fzf#install()")
+      vim.cmd("call fzf#install()")
     end,
   },
   {

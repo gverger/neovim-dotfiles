@@ -77,9 +77,9 @@ local bundles = {
   vim.fn.glob(mason_packages .. "java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", 1)
 }
 
-local vscode_java_test = "$HOME/bin/vscode-java-test/"
+-- local vscode_java_test = "$HOME/bin/vscode-java-test/"
 -- when using mason
--- local vscode_java_test = mason_packages .. "java-test/extension/"
+local vscode_java_test = mason_packages .. "java-test/extension/"
 
 vim.list_extend(bundles, vim.split(vim.fn.glob(vscode_java_test .. "server/*.jar", 1), "\n"))
 
@@ -99,7 +99,8 @@ local config = {
     root_dir = root_directory(),
     settings = {
       java = {
-        autobuild = { enabled = false },
+        -- autobuild = { enabled = false }, -- if disabled, it doesn't build when testing from vim
+                                            -- if enabled, it takes time at launch
         signatureHelp = { enabled = true };
         contentProvider = { preferred = 'fernflower' };
         eclipse = {
