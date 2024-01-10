@@ -160,11 +160,10 @@ return {
           \ }
 
     function! Macro()
-    return ""
-      " if ! luaeval("require('noice').api.statusline.mode.has()")
-      "   return ""
-      " endif
-      " return luaeval("require('noice').api.statusline.mode.get()")
+      if ! luaeval("require('noice').api.statusline.mode.has()")
+        return ""
+      endif
+      return luaeval("require('noice').api.statusline.mode.get()")
     endfunction
 
     function! LightlineModified()
