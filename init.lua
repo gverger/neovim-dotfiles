@@ -15,14 +15,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- require("lazy").setup("plugins")
-require("lazy").setup({
-  spec = "plugins",
-  change_detection = {
-    enabled = false,
-    notification = false
+require("lazy").setup(
+  {
+    spec = "plugins",
+    change_detection = {
+      enabled = false,
+      notification = false
+    }
   }
-}
 )
 
 vim.g.shortmess = "aFW" -- short messages + do not show file name when switching to the file

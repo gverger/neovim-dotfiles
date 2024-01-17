@@ -53,7 +53,7 @@ return {
           theme = {
             all = {
               ui = { bg_gutter = "none" },
-              -- syn = { parameter = "#a292a3" },
+              syn = { parameter = "none" },
             }
           }
         },
