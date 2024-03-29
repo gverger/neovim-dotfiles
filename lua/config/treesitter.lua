@@ -8,6 +8,17 @@ function M.setup()
     return
   end
 
+  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+  parser_config.mosel = {
+    install_info = {
+      url = "~/git/tree-sitter-mosel/", -- local path or git repo
+      files = { "src/parser.c" },           -- note that some parsers also require src/scanner.c or src/scanner.cc
+      -- optional entries:
+      branch = "main",                      -- default branch in case of git repo if different from master
+    },
+    filetype = "mos",                        -- if filetype does not match the parser name
+  }
+
   -- Disabled because lagging on big files
   -- vim.cmd([[
   -- function! MyFoldText()

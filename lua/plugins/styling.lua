@@ -1,6 +1,4 @@
 return {
-  'MunifTanjim/nui.nvim',
-  'rcarriga/nvim-notify',
   {
     'folke/noice.nvim',
     config = function()
@@ -21,56 +19,74 @@ return {
           }
         },
         presets = {
-          bottom_search = true,       -- use a classic bottom cmdline for search
-          command_palette = true,     -- position the cmdline and popupmenu together
+          bottom_search = false,         -- use a classic bottom cmdline for search
+          command_palette = false,       -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false,         -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = true,      -- add a border to hover docs and signature help
+          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true,        -- add a border to hover docs and signature help
         },
         messages = {
-          enabled = true,
+          enabled = false,
           view_search = false,
           view = "mini",
         },
         cmdline = {
+          enabled = false,
           view = "cmdline"
         },
         routes = {
-          -- {
-          --   filter = { event = "msg_show", kind = "return_prompt" },
-          --   opts = { skip = true },
-          -- },
+          {
+            filter = { find = "LSP attached:" },
+            view = 'mini',
+          },
           {
             filter = { find = "No information available" },
-            opts = { stop = true },
+            opts = { skip = true },
           },
-          {
-            view = "mini",
-            filter = { event = "msg_showmode" },
-          },
+          -- {
+          --   view = "mini",
+          --   filter = { event = "msg_showmode" },
+          -- },
           {
             filter = { find = "Publish Diagnostics" },
-            opts = { stop = true },
+            opts = { skip = true },
           },
           {
             filter = { find = "Validate documents" },
-            opts = { stop = true },
+            opts = { skip = true },
+          },
+          {
+            filter = {
+              any = {
+                { event = "msg_show", kind = "confirm" },
+                { event = "msg_show", kind = "confirm" },
+              },
+            },
+            opts = { view = 'confirm' },
           },
           {
             -- skip "file written" messages
             filter = { event = "msg_show", kind = '' },
-            opts = { stop = true },
+            opts = { skip = true },
           },
-          {
-            filter = { find = "<node" },
-            opts = { stop = true },
-          },
+          -- {
+          --   filter = { find = "<node" },
+          --   opts = { stop = true },
+          -- },
           {
             filter = { find = "multiple different client offset_encodings" },
-            opts = { stop = true },
+            opts = { skip = true },
+          },
+          {
+            filter = { kind = "confirm_sub" },
+            opts = { skip = 'false' },
           },
         },
       })
     end,
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+    },
   }
 }

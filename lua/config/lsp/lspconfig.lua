@@ -98,6 +98,7 @@ function M.setup()
     lspconfig.esbonio,
     lspconfig.groovyls,
     lspconfig.marksman,
+    -- lspconfig.pylsp,
     lspconfig.rnix,
     lspconfig.ruby_ls,
     lspconfig.rust_analyzer,
@@ -113,6 +114,17 @@ function M.setup()
       capabilities = capabilities,
     }
   end
+
+  lspconfig.html.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    configurationSection = { "html", "css", "javascript" },
+    embeddedLanguages = {
+      css = true,
+      javascript = true
+    },
+    provideFormatter = true
+  }
 
 
   lspconfig.ccls.setup {
@@ -184,6 +196,8 @@ function M.setup()
     enable_editorconfig_support = true,
     enable_roslyn_analyzers = true,
     organize_imports_on_format = true,
+    -- testing
+    enable_import_completion = true,
   }
 
   lspconfig.gopls.setup {
@@ -285,6 +299,12 @@ function M.setup()
               fileMatch = { "**/disaggregation/**/input.json" },
               name = "disaggregation-input.json",
               url = "/home/gverger/artelys/sime-dataformat/schemas/mari-disaggregation.input.schema.json"
+            },
+            {
+              description = "Devbox schema",
+              fileMatch = { "devbox.json" },
+              name = "devbox.schema.json",
+              url = "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox.schema.json",
             }
           }, require('schemastore').json.schemas()),
         validate = { enable = true },

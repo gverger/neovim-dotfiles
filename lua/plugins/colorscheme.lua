@@ -84,6 +84,18 @@ return {
       })
 
       vim.cmd([[
+        autocmd ColorScheme * hi LspReferenceRead term=standout gui=standout
+        autocmd ColorScheme * hi LspReferenceText term=standout gui=standout
+        autocmd ColorScheme * hi LspReferenceWrite term=standout gui=standout
+        autocmd ColorScheme * hi LspCodeLens guifg=#c1a78e gui=italic
+        autocmd ColorScheme * hi LspCodeLensSeparator guifg=#c1a78e gui=italic
+        autocmd ColorScheme * hi DiagnosticHintWithBg guibg=#202322 guifg=#6A9589
+        autocmd ColorScheme * hi DiagnosticWarnWithBg guibg=#2f241a guifg=#FF9E3B
+        autocmd ColorScheme * hi DiagnosticErrorWithBg guibg=#2d1717 guifg=#E82424
+        autocmd ColorScheme * hi DiagnosticInfoWithBg guibg=#202123 guifg=#658594
+      ]])
+
+      vim.cmd([[
         set encoding=utf-8
         set ambiwidth=single
 

@@ -61,7 +61,6 @@ capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local on_attach = function(client, bufnr)
   require('jdtls').setup_dap({hotcodereplace = 'auto'})
-  require('jdtls.setup').add_commands()
   require('config.lsp.codelens').on_attach(client, bufnr)
   vim.cmd([[
   augroup lsp_document_highlight
@@ -123,7 +122,7 @@ local config = {
         },
         inlayHints = {
           parameterNames = {
-            enabled = "all", -- literals, all, none
+            enabled = "none", -- literals, all, none
           },
         },
         configuration = {
@@ -209,6 +208,8 @@ end
 --       end
 --     end
 --   end,
+config.handlers = config.handlers or {}
+config.handlers['language/status'] = function() end
 require('jdtls').start_or_attach(config)
 
 vim.keymap.set({ "n" }, "<leader>dt", function()

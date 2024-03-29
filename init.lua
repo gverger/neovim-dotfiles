@@ -14,7 +14,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup(
   {
     spec = "plugins",
@@ -51,6 +50,7 @@ set.spell = false
 set.tagrelative = false
 set.exrc = true -- use local vimrc files
 set.completeopt = "menu,menuone,noselect"
+set.foldenable = false
 vim.cmd [[
 augroup MyComments
   autocmd!
@@ -77,6 +77,13 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
 -- vim.g.markdown_fenced_languages = { "python", "json", "ruby", "bash" }
 
 require('config').setup()
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  pattern = {"*.mos"},
+  callback = function(ev)
+    set.filetype = "mosel"
+  end
+})
 
 -- vim.api.nvim_create_autocmd("LspTokenUpdate", {
 --   callback = function(args)

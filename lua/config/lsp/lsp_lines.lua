@@ -3,10 +3,10 @@ local M = {}
 local utils = require('config.utils')
 
 local HIGHLIGHTS = {
-  [vim.diagnostic.severity.ERROR] = "DiagnosticVirtualTextError",
-  [vim.diagnostic.severity.WARN] = "DiagnosticVirtualTextWarn",
-  [vim.diagnostic.severity.INFO] = "DiagnosticVirtualTextInfo",
-  [vim.diagnostic.severity.HINT] = "DiagnosticVirtualTextHint",
+  [vim.diagnostic.severity.ERROR] = "DiagnosticErrorWithBg",
+  [vim.diagnostic.severity.WARN] = "DiagnosticWarnWithBg",
+  [vim.diagnostic.severity.INFO] = "DiagnosticInfoWithBg",
+  [vim.diagnostic.severity.HINT] = "DiagnosticHintWithBg",
 }
 
 local SPACE = "space"
@@ -196,6 +196,13 @@ function M.show(bufnr, diagnostics, opts)
       end
     end
 
+    -- require("config.utils").put(virt_lines)
+
+    -- make lines one space longer so that the view is a bit larger
+    for _, line in pairs(virt_lines) do
+      line[#line][1] = line[#line][1] .. " "
+    end
+
     local lines = {}
     for _, line in pairs(virt_lines) do
       local current = ""
@@ -205,10 +212,26 @@ function M.show(bufnr, diagnostics, opts)
       table.insert(lines, current)
     end
 
+    local first_non_blank = 1000
+    for _, line in pairs(lines) do
+      first_non_blank = math.min(first_non_blank, line:find('%S'))
+    end
+
+    for i, line in pairs(lines) do
+      lines[i] = string.sub(line, first_non_blank)
+    end
+
     local rows = #lines
     local cols = 0
     for _, line in pairs(lines) do
-      cols = math.max(cols, #line)
+      cols = math.max(cols, vim.fn.strdisplaywidth(line))
+    end
+
+    for i, line in pairs(virt_lines) do
+      local padding = (cols - vim.fn.strdisplaywidth(lines[i]))
+      -- print("line " .. lines[i] .. " add n = " .. padding)
+      line[#line][1] = line[#line][1] .. string.rep(" ", padding)
+      lines[i] = lines[i] .. string.rep(" ", padding)
     end
 
     local float_buffer = vim.api.nvim_create_buf(false, true)
@@ -216,31 +239,41 @@ function M.show(bufnr, diagnostics, opts)
 
     for idx_line, line in pairs(virt_lines) do
       local idx = 0
+      local offset = first_non_blank - 1
       for _, element in pairs(line) do
         local txt = element[1]
         local hl = element[2]
-        -- local len = vim.fn.strdisplaywidth(txt)
         local len = #txt
-        print("[" .. txt .. "]" .. " size = " .. len .. " idx = " .. idx .. " line = " .. idx_line .. " hl = " .. hl)
-        vim.highlight.range(float_buffer, ns, hl, { idx_line - 1, idx }, { idx_line - 1, idx + len })
-        idx = idx + len
+        if len <= offset then
+          offset = offset - len
+        else
+          len = len - offset
+          offset = 0
+          local start = { idx_line - 1, idx }
+          local stop = { idx_line - 1, idx + len }
+          vim.highlight.range(float_buffer, ns, hl, start, stop)
+          idx = idx + len
+        end
       end
     end
 
-    -- vim.highlight.range(float_buffer, ns, "DiagnosticVirtualTextError", { 0, 18 }, { 0, 71 })
+    local parent_winid = vim.fn.win_getid()
+    local win_config = vim.api.nvim_win_get_config(parent_winid) or {}
+    win_config.zindex = win_config.zindex or 0
 
     local col_number = vim.api.nvim_win_get_cursor(0)[2]
     current_win_id = vim.api.nvim_open_win(float_buffer, false,
       {
         relative = 'win',
+        zindex = win_config.zindex + 1,
         row = vim.fn.winline(),
-        col = vim.fn.wincol() - col_number - 1,
+        col = vim.fn.wincol() - col_number - 2 + first_non_blank,
         width = cols,
-        height = rows,
+        height = math.min(rows, vim.fn.winheight(0) - vim.fn.winline() + 1),
         style = "minimal",
       })
 
-    require("config.utils").put(lines)
+    -- require("config.utils").put(lines)
   end
 end
 
@@ -253,12 +286,12 @@ local function load_lsp_lines()
   end, { desc = "cancel deletion on mistyping leader d" })
 
   utils.noremap("", "<Leader>dl", function()
-    local current = vim.diagnostic.config().virtual_text
-    if current then
-      vim.diagnostic.config({ virtual_text = false })
-    else
-      vim.diagnostic.config({ virtual_text = { severity = "Error" } })
-    end
+    -- local current = vim.diagnostic.config().virtual_text
+    -- if current then
+    --   vim.diagnostic.config({ virtual_text = false })
+    -- else
+    --   vim.diagnostic.config({ virtual_text = { severity = "Error" } })
+    -- end
     lsp_lines.toggle()
   end, { desc = "Toggle lsp_lines" })
 end
@@ -279,7 +312,7 @@ function M.show_at_cursor()
   local line_number = vim.api.nvim_win_get_cursor(0)[1]
   local lsp_line_number = line_number - 1;
   local diags = vim.diagnostic.get(0, { lnum = lsp_line_number })
-  require("config.utils").put(diags)
+  -- require("config.utils").put(diags)
   local last_winid = current_win_id
   current_win_id = nil
   M.show(0, diags, {})
@@ -311,7 +344,7 @@ function M.setup()
       if last_line_number == lsp_line_number then
         local line = vim.api.nvim_get_current_line()
         if line ~= last_line then
-          print("show " .. line)
+          -- print("show " .. line)
           M.show_at_cursor()
         end
 

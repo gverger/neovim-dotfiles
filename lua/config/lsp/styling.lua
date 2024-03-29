@@ -11,9 +11,7 @@ function M.setup()
   vim.diagnostic.config({
     virtual_lines = false,
     signs = true,
-    virtual_text = {
-      severity = "Error"
-    },
+    virtual_text = false,
     float = {
       header = false,
       source = 'if_many',
@@ -24,15 +22,7 @@ function M.setup()
     severity_sort = true,
   })
 
-  vim.cmd([[
-    autocmd ColorScheme * hi LspReferenceRead term=standout gui=standout
-    autocmd ColorScheme * hi LspReferenceText term=standout gui=standout
-    autocmd ColorScheme * hi LspReferenceWrite term=standout gui=standout
-    autocmd ColorScheme * hi LspCodeLens guifg=#c1a78e gui=italic
-    autocmd ColorScheme * hi LspCodeLensSeparator guifg=#c1a78e gui=italic
-  ]])
-
-  vim.api.nvim_set_hl(0, '@lsp.mod.readonly', {}) -- readonly makes java colors flicker
+  -- vim.api.nvim_set_hl(0, '@lsp.mod.readonly', {}) -- readonly makes java colors flicker
 end
 
 return M

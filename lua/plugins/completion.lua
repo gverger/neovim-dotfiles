@@ -46,24 +46,31 @@ return {
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-e>'] = cmp.mapping.abort(),
           ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ['<C-l>'] = cmp.mapping(function(fallback)
-            if ls.expand_or_jumpable() then
-              ls.expand_or_jump()
-            elseif cmp.visible() then
+          ['<C-j>'] = cmp.mapping.complete({}),
+          ['<C-n>'] = cmp.mapping(function()
+            if ls.choice_active() then
+              ls.change_choice(1)
+            else
               cmp.select_next_item()
+            end
+          end),
+          ['<C-p>'] = cmp.mapping(function()
+            if ls.choice_active() then
+              ls.change_choice(-1)
+            else
+              cmp.select_prev_item()
+            end
+          end),
+          ['<C-l>'] = cmp.mapping(function()
+            if ls.expand_or_locally_jumpable() then
+              ls.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
-            else
-              fallback()
             end
           end, { "i", "s" }),
-          ["<C-k>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif ls.jumpable(-1) then
+          ["<C-h>"] = cmp.mapping(function()
+            if ls.locally_jumpable(-1) then
               ls.jump(-1)
-            else
-              fallback()
             end
           end, { "i", "s" }),
         }),
@@ -141,10 +148,10 @@ return {
     config = function()
       local ls = require('luasnip')
 
-      vim.keymap.set({ "i", "s" }, "<c-j>", function() if ls.expandable() then ls.expand() end end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<c-l>", function() if ls.jumpable(1) then ls.jump(1) end end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<c-k>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
-      vim.keymap.set({ "i" }, "<c-h>", function() if ls.choice_active() then ls.change_choice(1) end end, { silent = true })
+      -- vim.keymap.set({ "i", "s" }, "<c-j>", function() if ls.expandable() then ls.expand() end end, { silent = true })
+      -- vim.keymap.set({ "i", "s" }, "<c-l>", function() if ls.jumpable(1) then ls.jump(1) end end, { silent = true })
+      -- vim.keymap.set({ "i", "s" }, "<c-k>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
+      -- vim.keymap.set({ "n" }, "<c-i>", function() if ls.choice_active() then ls.change_choice(1) end end, { silent = true })
 
       require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
       require("luasnip.loaders.from_vscode").load() -- for friendly-snippets
@@ -165,7 +172,7 @@ return {
         ext_opts = {
           [types.choiceNode] = {
             active = {
-              virt_text = { { "<-- choose (<c-h>)", "Comment" } },
+              virt_text = { { "<-- next (<c-n>) or input (<c-u>)", "Comment" } },
               hl_group = "GitSignsChangeLn",
             },
           },

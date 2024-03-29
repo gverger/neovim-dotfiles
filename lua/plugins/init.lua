@@ -160,10 +160,11 @@ return {
           \ }
 
     function! Macro()
-      if ! luaeval("require('noice').api.statusline.mode.has()")
-        return ""
-      endif
-      return luaeval("require('noice').api.statusline.mode.get()")
+      " if ! luaeval("require('noice').api.statusline.mode.has()")
+      "   return ""
+      " endif
+      " return luaeval("require('noice').api.statusline.mode.get()")
+      return ""
     endfunction
 
     function! LightlineModified()
@@ -198,12 +199,13 @@ return {
   {
     'jpalardy/vim-slime',
     lazy = true,
+    keys = {
+      { "<leader>cc", "<Plug>SlimeParagraphSend" },
+    },
     config = function()
       vim.cmd([[
       let g:slime_target="tmux"
       let g:slime_default_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":.2"}
-
-      nmap <leader>cc <Plug>SlimeParagraphSend
       ]])
     end,
   },

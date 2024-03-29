@@ -98,6 +98,6 @@ return {
       'nvim-treesitter/nvim-treesitter',
     }
   },
-  'chrisbra/csv.vim',
+  -- 'chrisbra/csv.vim',
   'LnL7/vim-nix',
 }
