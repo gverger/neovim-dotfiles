@@ -63,6 +63,9 @@ function M.setup()
         library.enabled = true
         library.plugins = true
       end,
+      library = {
+        plugins = { "nvim-dap-ui", types = true },
+      }
     }
   end
 
@@ -100,7 +103,7 @@ function M.setup()
     lspconfig.marksman,
     -- lspconfig.pylsp,
     lspconfig.rnix,
-    lspconfig.ruby_ls,
+    lspconfig.ruby_lsp,
     lspconfig.rust_analyzer,
     lspconfig.tailwindcss,
     lspconfig.taplo,
@@ -193,11 +196,16 @@ function M.setup()
   lspconfig.omnisharp.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    enable_editorconfig_support = true,
-    enable_roslyn_analyzers = true,
-    organize_imports_on_format = true,
-    -- testing
-    enable_import_completion = true,
+    settings = {
+      FormattingOptions = {
+        EnableEditorConfigSupport = true,
+        OrganizeImports = true,
+      },
+      RoslynExtensionsOptions = {
+        EnableAnalyzersSupport = true,
+        EnableImportCompletion = true,
+      },
+    },
   }
 
   lspconfig.gopls.setup {
@@ -292,8 +300,8 @@ function M.setup()
     capabilities = capabilities,
     settings = {
       json = {
-        schemas = vim.list_extend(
-          {
+        schemas = require('schemastore').json.schemas {
+          extra = {
             {
               description = "Disaggregation SIME input",
               fileMatch = { "**/disaggregation/**/input.json" },
@@ -305,8 +313,15 @@ function M.setup()
               fileMatch = { "devbox.json" },
               name = "devbox.schema.json",
               url = "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox.schema.json",
-            }
-          }, require('schemastore').json.schemas()),
+            },
+            {
+              description = "Sherpa configuration",
+              fileMatch = { "/home/gverger/syleps/HeterogeneousPalletizing/**/appsettings*.{json,model}" },
+              name = "sherpa.schema.json",
+              url = "/home/gverger/.config/custom/sherpa-config-schema.json"
+            },
+          }
+        },
         validate = { enable = true },
       }
     }
@@ -318,7 +333,7 @@ function M.setup()
     settings = {
       yaml = {
         schemas = {
-          ["/home/gverger/.config/custom/itools-config-schema.json"] = "*/.itools/config.yml",
+          ["/home/gverger/.config/custom/itools-config-schema.json"] = { "*/.itools/config.yml", "*/*itools*.yml" },
         },
       },
     },

@@ -23,8 +23,22 @@ return {
     ft = "java",
   },
   'mfussenegger/nvim-lint',
-  'mfussenegger/nvim-dap',
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'nvim-neotest/nvim-nio',
+    }
+  },
   'rcarriga/nvim-dap-ui',
+  {
+    'theHamsta/nvim-dap-virtual-text',
+    config = function()
+      require 'nvim-dap-virtual-text'.setup {
+        -- virt_lines = true,
+        all_references = true,
+      }
+    end,
+  },
   'b0o/schemastore.nvim',
   'folke/trouble.nvim',
   'onsails/lspkind-nvim',

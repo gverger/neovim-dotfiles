@@ -85,6 +85,13 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   end
 })
 
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  pattern = {"appsettings.*.model"},
+  callback = function(ev)
+    set.filetype = "json"
+  end
+})
+
 -- vim.api.nvim_create_autocmd("LspTokenUpdate", {
 --   callback = function(args)
 --     if vim.fn.mode() == "i" then
