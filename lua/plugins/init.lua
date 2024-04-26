@@ -48,10 +48,30 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-vim-test")({ ignore_file_types = {} }),
+          require("neotest-vim-test")({ ignore_file_types = { "cs" } }),
+          require("neotest-dotnet"),
         },
       })
+
+      vim.keymap.set({ "n" }, "<leader>dt", function()
+        local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+        vim.api.nvim_buf_set_mark(0, "T", l, c, {})
+        require'neotest'.run.run()
+      end)
     end
+  },
+  {
+    'Issafalcon/neotest-dotnet',
+    config = function()
+      vim.keymap.set({ "n" }, "<leader>dt", function()
+        local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+        vim.api.nvim_buf_set_mark(0, "T", l, c, {})
+        require'neotest'.run.run({strategy="dap"})
+      end)
+    end,
+    dependencies = {
+      'nvim-neotest/neotest',
+    }
   },
   'tpope/vim-surround',
   'tpope/vim-repeat',

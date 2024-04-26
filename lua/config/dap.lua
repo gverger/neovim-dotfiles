@@ -18,7 +18,7 @@ end
 local function configure_csharp(dap)
   local mason_bin = "/home/gverger/.local/share/nvim/mason/bin/"
 
-  dap.adapters.coreclr = {
+  dap.adapters.netcoredbg = {
     type = 'executable',
     command = mason_bin .. 'netcoredbg',
     args = { '--interpreter=vscode' }
@@ -29,7 +29,7 @@ local function configure_csharp(dap)
 
   dap.configurations.cs = {
     {
-      type = "coreclr",
+      type = "netcoredbg",
       name = "launch - netcoredbg",
       request = "launch",
       preLaunchTask = "build",
@@ -88,7 +88,7 @@ local function configure_csharp(dap)
       vim.notify("Running...")
 
       require('dap').run({
-        type = "coreclr",
+        type = "netcoredbg",
         name = "launch - netcoredbg",
         request = "launch",
         program = function(a)

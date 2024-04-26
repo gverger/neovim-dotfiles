@@ -204,6 +204,7 @@ function M.setup()
       RoslynExtensionsOptions = {
         EnableAnalyzersSupport = true,
         EnableImportCompletion = true,
+        EnableDecompilationSupport = true,
       },
     },
   }
