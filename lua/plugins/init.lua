@@ -48,7 +48,7 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-vim-test")({ ignore_file_types = { "cs" } }),
+          require("neotest-vim-test")({ ignore_file_types = { "cs", "java" } }),
           require("neotest-dotnet"),
         },
       })
