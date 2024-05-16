@@ -25,6 +25,21 @@ return {
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {
+        renderer = {
+          group_empty = true
+        },
+      }
+    end,
+  },
   -- 'unblevable/quick-scope',
   {
     'Julian/vim-textobj-variable-segment',

@@ -12,7 +12,7 @@ return {
       "luarocks.nvim",
       'nvim-treesitter/nvim-treesitter',
     },
-    -- ft = "norg",
+    ft = "norg",
     config = function()
       require("neorg").setup(
         {

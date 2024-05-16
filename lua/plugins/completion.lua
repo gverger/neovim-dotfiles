@@ -1,7 +1,8 @@
 return {
   {
     'hrsh7th/nvim-cmp',
-    event = "InsertEnter", -- load plugin on insert enter
+    -- event = "InsertEnter", -- load plugin on insert enter
+    event = "VeryLazy",
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
@@ -97,6 +98,7 @@ return {
           },
         }),
         formatting = {
+          expandable_indicator = true,
           format = require 'lspkind'.cmp_format({
             mode = "symbol_text",
             menu = ({
@@ -153,15 +155,9 @@ return {
       -- vim.keymap.set({ "i", "s" }, "<c-k>", function() if ls.jumpable(-1) then ls.jump(-1) end end, { silent = true })
       -- vim.keymap.set({ "n" }, "<c-i>", function() if ls.choice_active() then ls.change_choice(1) end end, { silent = true })
 
-      require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
-      require("luasnip.loaders.from_vscode").load() -- for friendly-snippets
+      require("luasnip.loaders.from_lua").lazy_load({ paths = { "~/.config/nvim/snippets/" } })
+      require("luasnip.loaders.from_vscode").lazy_load() -- for friendly-snippets
       require("luasnip").filetype_extend("c_sharp", { "cs", "csharpdoc" })
-
-
-      vim.keymap.set({ "n" }, "<leader><leader>s", function()
-        require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets" })
-        require("luasnip.loaders.from_vscode").load() -- for friendly-snippets
-      end)
 
       vim.keymap.set({ "n" }, "<leader>se", require("luasnip.loaders").edit_snippet_files)
 

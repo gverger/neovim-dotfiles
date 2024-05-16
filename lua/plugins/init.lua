@@ -62,6 +62,7 @@ return {
   },
   {
     'Issafalcon/neotest-dotnet',
+    ft = "cs",
     config = function()
       vim.keymap.set({ "n" }, "<leader>dt", function()
         local l, c = unpack(vim.api.nvim_win_get_cursor(0))
