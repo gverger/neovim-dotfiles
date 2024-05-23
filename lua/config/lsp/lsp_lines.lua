@@ -47,7 +47,7 @@ function M.show(bufnr, diagnostics, opts)
     bufnr = { bufnr, "n" },
     diagnostics = {
       diagnostics,
-      vim.tbl_islist,
+      vim.islist,
       "a list of diagnostics",
     },
     opts = { opts, "t", true },
@@ -103,8 +103,8 @@ function M.show(bufnr, diagnostics, opts)
     prev_col = diagnostic.col
   end
 
+  local virt_lines = {}
   for lnum, lelements in pairs(line_stacks) do
-    local virt_lines = {}
 
     -- We read in the order opposite to insertion because the last
     -- diagnostic for a real line, is rendered upstairs from the
@@ -195,86 +195,87 @@ function M.show(bufnr, diagnostics, opts)
         end
       end
     end
-
-    -- require("config.utils").put(virt_lines)
-
-    -- make lines one space longer so that the view is a bit larger
-    for _, line in pairs(virt_lines) do
-      line[#line][1] = line[#line][1] .. " "
-    end
-
-    local lines = {}
-    for _, line in pairs(virt_lines) do
-      local current = ""
-      for _, element in pairs(line) do
-        current = current .. element[1]
-      end
-      table.insert(lines, current)
-    end
-
-    local first_non_blank = 1000
-    for _, line in pairs(lines) do
-      first_non_blank = math.min(first_non_blank, line:find('%S'))
-    end
-
-    for i, line in pairs(lines) do
-      lines[i] = string.sub(line, first_non_blank)
-    end
-
-    local rows = #lines
-    local cols = 0
-    for _, line in pairs(lines) do
-      cols = math.max(cols, vim.fn.strdisplaywidth(line))
-    end
-
-    for i, line in pairs(virt_lines) do
-      local padding = (cols - vim.fn.strdisplaywidth(lines[i]))
-      -- print("line " .. lines[i] .. " add n = " .. padding)
-      line[#line][1] = line[#line][1] .. string.rep(" ", padding)
-      lines[i] = lines[i] .. string.rep(" ", padding)
-    end
-
-    local float_buffer = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(float_buffer, 0, 0, true, lines)
-
-    for idx_line, line in pairs(virt_lines) do
-      local idx = 0
-      local offset = first_non_blank - 1
-      for _, element in pairs(line) do
-        local txt = element[1]
-        local hl = element[2]
-        local len = #txt
-        if len <= offset then
-          offset = offset - len
-        else
-          len = len - offset
-          offset = 0
-          local start = { idx_line - 1, idx }
-          local stop = { idx_line - 1, idx + len }
-          vim.highlight.range(float_buffer, ns, hl, start, stop)
-          idx = idx + len
-        end
-      end
-    end
-
-    local parent_winid = vim.fn.win_getid()
-    local win_config = vim.api.nvim_win_get_config(parent_winid) or {}
-    win_config.zindex = win_config.zindex or 0
-
-    local col_number = vim.api.nvim_win_get_cursor(0)[2]
-    current_win_id = vim.api.nvim_open_win(float_buffer, false,
-      {
-        relative = 'win',
-        zindex = win_config.zindex + 1,
-        row = vim.fn.winline(),
-        col = vim.fn.wincol() - col_number - 2 + first_non_blank,
-        width = cols,
-        height = math.min(rows, vim.fn.winheight(0) - vim.fn.winline() + 1),
-        style = "minimal",
-      })
-
-    -- require("config.utils").put(lines)
   end
+
+  -- require("config.utils").put(virt_lines)
+
+  -- make lines one space longer so that the view is a bit larger
+  for _, line in pairs(virt_lines) do
+    line[#line][1] = line[#line][1] .. " "
+  end
+
+  local lines = {}
+  for _, line in pairs(virt_lines) do
+    local current = ""
+    for _, element in pairs(line) do
+      current = current .. element[1]
+    end
+    table.insert(lines, current)
+  end
+
+  local first_non_blank = 1000
+  for _, line in pairs(lines) do
+    first_non_blank = math.min(first_non_blank, line:find('%S'))
+  end
+
+  for i, line in pairs(lines) do
+    lines[i] = string.sub(line, first_non_blank)
+  end
+
+  local rows = #lines
+  local cols = 0
+  for _, line in pairs(lines) do
+    cols = math.max(cols, vim.fn.strdisplaywidth(line))
+  end
+
+  for i, line in pairs(virt_lines) do
+    local padding = (cols - vim.fn.strdisplaywidth(lines[i]))
+    -- print("line " .. lines[i] .. " add n = " .. padding)
+    line[#line][1] = line[#line][1] .. string.rep(" ", padding)
+    lines[i] = lines[i] .. string.rep(" ", padding)
+  end
+
+  local float_buffer = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(float_buffer, 0, 0, true, lines)
+
+  for idx_line, line in pairs(virt_lines) do
+    local idx = 0
+    local offset = first_non_blank - 1
+    for _, element in pairs(line) do
+      local txt = element[1]
+      local hl = element[2]
+      local len = #txt
+      if len <= offset then
+        offset = offset - len
+      else
+        len = len - offset
+        offset = 0
+        local start = { idx_line - 1, idx }
+        local stop = { idx_line - 1, idx + len }
+        vim.highlight.range(float_buffer, ns, hl, start, stop)
+        idx = idx + len
+      end
+    end
+  end
+
+  local parent_winid = vim.fn.win_getid()
+  local win_config = vim.api.nvim_win_get_config(parent_winid) or {}
+  win_config.zindex = win_config.zindex or 0
+
+  local col_number = vim.api.nvim_win_get_cursor(0)[2]
+  current_win_id = vim.api.nvim_open_win(float_buffer, false,
+    {
+      relative = 'win',
+      zindex = win_config.zindex + 1,
+      row = vim.fn.winline(),
+      col = vim.fn.wincol() - col_number - 2 + first_non_blank,
+      width = cols,
+      height = math.min(#virt_lines, vim.fn.winheight(0) - vim.fn.winline() + 1),
+      style = "minimal",
+    })
+
+  require('config.utils').put("adding to " .. current_win_id)
+  require("config.utils").put(lines)
 end
 
 local function load_lsp_lines()
@@ -282,8 +283,7 @@ local function load_lsp_lines()
 
   lsp_lines.setup()
 
-  utils.noremap("", "<Leader>d", function()
-  end, { desc = "cancel deletion on mistyping leader d" })
+  utils.noremap("", "<Leader>d", function() end)
 
   utils.noremap("", "<Leader>dl", function()
     -- local current = vim.diagnostic.config().virtual_text
@@ -293,7 +293,7 @@ local function load_lsp_lines()
     --   vim.diagnostic.config({ virtual_text = { severity = "Error" } })
     -- end
     lsp_lines.toggle()
-  end, { desc = "Toggle lsp_lines" })
+  end)
 end
 
 ---close the window
@@ -302,6 +302,7 @@ function M.close(win_id)
   if not win_id then
     return
   end
+  require('config.utils').put("closing " .. win_id)
   local float_buffer = vim.api.nvim_win_get_buf(win_id)
   vim.api.nvim_buf_clear_namespace(float_buffer, ns, 0, -1)
   vim.api.nvim_win_close(win_id, true)
