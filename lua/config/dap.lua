@@ -15,6 +15,32 @@ local function define_keymaps(dap, dapui)
   end
 end
 
+local lspconfig = require('lspconfig')
+
+local function csproj_dir(current_file)
+  local csproj_path = nil
+  lspconfig.util.search_ancestors(current_file, function(path)
+    if lspconfig.util.path.exists(vim.fn.glob(path .. "/*.csproj")) then
+      csproj_path = path
+      return true
+    end
+  end)
+  return csproj_path
+end
+
+local function build_current_project(current_file)
+  local project_dir = csproj_dir(current_file)
+
+  vim.notify("Building in " .. project_dir)
+  local ok = utils.run_sync({ "dotnet", "build" }, project_dir)
+  if not ok then
+    vim.notify("Aborting launch")
+    return
+  end
+  vim.notify("project built successfully")
+end
+
+
 local function configure_csharp(dap)
   local mason_bin = "/home/gverger/.local/share/nvim/mason/bin/"
 
@@ -34,21 +60,24 @@ local function configure_csharp(dap)
       request = "launch",
       preLaunchTask = "build",
       program = function()
-        print(vim.api.nvim_buf_get_name(0))
-        if csharp_dll then
-          return vim.fn.getcwd() .. "/" .. csharp_dll
-        end
-        return vim.fn.input('Path to dll: ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+        local current_file = vim.api.nvim_buf_get_name(0)
+        local project_dir = csproj_dir(current_file)
+
+        return project_dir .. '/bin/Debug/net6.0/Fives.Sun.HeterogeneousPalletizing.Tests.dll'
       end,
-      -- cwd = "${fileDirname}",
       cwd = function()
-        return vim.fn.getcwd() .. "/" .. csharp_dir
+        local current_file = vim.api.nvim_buf_get_name(0)
+        local project_dir = csproj_dir(current_file)
+        print("cwd = " .. project_dir)
+
+        return project_dir
       end,
       env = {
         DOTNET_ENVIRONMENT = "Development", -- hacky: should check the Properties/lauchSettings.json
       }
     },
   }
+
 
   vim.keymap.set({ "n" }, "<Leader>dr", function()
     local ok, program_files = utils.run_sync({ "fdfind", "Program.cs" })

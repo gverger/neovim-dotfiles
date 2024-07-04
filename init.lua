@@ -45,11 +45,12 @@ set.shiftwidth = 2
 set.softtabstop = 2
 set.wildmode = "list:longest"
 set.number = true
+set.relativenumber = true
 set.cursorline = false
 set.spell = false
 set.tagrelative = false
 set.exrc = true -- use local vimrc files
-set.completeopt = "menu,menuone,noselect"
+set.completeopt = { "menu", "menuone", "noselect" }
 set.foldenable = false
 vim.cmd [[
 augroup MyComments
@@ -78,15 +79,15 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
 
 require('config').setup()
 
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"*.mos"},
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "*.mos" },
   callback = function(ev)
     set.filetype = "mosel"
   end
 })
 
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"appsettings.*.model"},
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "appsettings.*.model" },
   callback = function(ev)
     set.filetype = "json"
   end

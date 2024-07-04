@@ -274,8 +274,8 @@ function M.show(bufnr, diagnostics, opts)
       style = "minimal",
     })
 
-  require('config.utils').put("adding to " .. current_win_id)
-  require("config.utils").put(lines)
+  -- require('config.utils').put("adding to " .. current_win_id)
+  -- require("config.utils").put(lines)
 end
 
 local function load_lsp_lines()
@@ -302,7 +302,7 @@ function M.close(win_id)
   if not win_id then
     return
   end
-  require('config.utils').put("closing " .. win_id)
+  -- require('config.utils').put("closing " .. win_id)
   local float_buffer = vim.api.nvim_win_get_buf(win_id)
   vim.api.nvim_buf_clear_namespace(float_buffer, ns, 0, -1)
   vim.api.nvim_win_close(win_id, true)

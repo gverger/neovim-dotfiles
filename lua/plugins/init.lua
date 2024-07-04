@@ -15,12 +15,12 @@ return {
   'tpope/vim-eunuch',
   'tpope/vim-projectionist',
   -- 'jeetsukumaran/vim-filebeagle',
-  {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end,
-  },
+  -- {
+  --   'numToStr/Comment.nvim',
+  --   config = function()
+  --     require('Comment').setup()
+  --   end,
+  -- },
   'bronson/vim-trailing-whitespace',
   'tmhedberg/matchit',
   'sickill/vim-pasta',
@@ -98,11 +98,11 @@ return {
     config = function()
       require('gitsigns').setup({
         signs = {
-          add          = { hl = 'GitSignsAdd', text = '│', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-          change       = { hl = 'GitSignsChange', text = '│', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
-          delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-          topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
-          changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+          add          = { text = '│', },
+          change       = { text = '│', },
+          delete       = { text = '_', },
+          topdelete    = { text = '‾', },
+          changedelete = { text = '~', },
         },
         numhl = true,
       }

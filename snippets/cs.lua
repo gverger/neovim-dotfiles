@@ -40,7 +40,7 @@ return {
 
       local query = ts.query.parse('c_sharp', [[
     [
-    (method_declaration type: _ @ret name: _ @name parameters: (parameter_list )+ @list) @decl
+    (method_declaration returns: _ @ret name: _ @name parameters: (parameter_list )+ @list) @decl
     ]
     ]])
 

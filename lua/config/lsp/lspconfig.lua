@@ -34,14 +34,19 @@ local function manual_sonarlint_configuration()
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
-        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar")
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
       },
+      settings = { -- Hack, sinon fait lagger les LSP : https://gitlab.com/schrieveslaach/sonarlint.nvim/-/issues/14
+        sonarlint = {
+          test = 'test',
+        },
+      },
     },
 
-    filetypes = { 'python', 'java', 'cpp' }
+    filetypes = { 'python', 'java', 'cpp', 'javascriptreact' }
   })
 end
 
@@ -73,11 +78,14 @@ function M.setup()
   local lspconfig = require 'lspconfig'
 
 
-  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
-  --
-  -- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  local capabilities = vim.tbl_deep_extend("force",
+    vim.lsp.protocol.make_client_capabilities(),
+    require('cmp_nvim_lsp').default_capabilities()
+  )
+  capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
+  -- trying this as some lsps are very slow at the moment (june 2024)
+  -- https://www.reddit.com/r/neovim/comments/161tv8l/lsp_has_gotten_very_slow/
 
   local function on_attach(client, bufnr)
     -- don't use codelens yet python lsp doesn't execute any of them
@@ -94,6 +102,7 @@ function M.setup()
   -- LSP servers that only need the default configuration
   local simple_lsps = {
     lspconfig.bashls,
+    lspconfig.cmake,
     lspconfig.cssls,
     lspconfig.docker_compose_language_service,
     lspconfig.dockerls,
@@ -122,6 +131,7 @@ function M.setup()
     on_attach = on_attach,
     capabilities = capabilities,
     configurationSection = { "html", "css", "javascript" },
+    filetypes = { "html", "templ", "eruby" },
     embeddedLanguages = {
       css = true,
       javascript = true
@@ -202,9 +212,23 @@ function M.setup()
         OrganizeImports = true,
       },
       RoslynExtensionsOptions = {
-        EnableAnalyzersSupport = true,
-        EnableImportCompletion = true,
-        EnableDecompilationSupport = true,
+        enableAnalyzersSupport = true,
+        enableImportCompletion = true,
+        enableDecompilationSupport = true,
+        inlayHintsOptions = {
+          enableForParameters = true,
+          forLiteralParameters = true,
+          forIndexerParameters = true,
+          forObjectCreationParameters = true,
+          forOtherParameters = true,
+          suppressForParametersThatDifferOnlyBySuffix = false,
+          suppressForParametersThatMatchMethodIntent = false,
+          suppressForParametersThatMatchArgumentName = false,
+          enableForTypes = true,
+          forImplicitVariableTypes = true,
+          forLambdaParameterTypes = true,
+          forImplicitObjectCreation = true
+        },
       },
     },
   }
@@ -265,6 +289,9 @@ function M.setup()
           -- Make the server aware of Neovim runtime files
           library = vim.api.nvim_get_runtime_file("", true),
           checkThirdParty = false,
+        },
+        hint = {
+          enable = true,
         },
         -- Do not send telemetry data containing a randomized but unique identifier
         telemetry = {

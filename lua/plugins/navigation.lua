@@ -1,4 +1,9 @@
 return {
+  -- {
+  --   "m4xshen/hardtime.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+  --   opts = {}
+  -- },
   {
     'stevearc/oil.nvim',
     keys = {
@@ -56,8 +61,11 @@ return {
   {
     'ggandor/leap.nvim',
     config = function()
-      require("leap").add_default_mappings()
+      -- require("leap").add_default_mappings()
       require("leap").opts.highlight_unlabeled_phase_one_targets = true
+      vim.keymap.set({ "n", "x", "o" }, 's', '<Plug>(leap-forward)', { silent = true, desc = "Leap forward", noremap = true })
+      vim.keymap.set({ "n", "x", "o" }, 'S', '<Plug>(leap-backward)', { silent = true, desc = "Leap backward", noremap = true })
+      vim.keymap.set("n", 'gs', '<Plug>(leap-from-window)', { silent = true, desc = "Leap from window", noremap = true })
     end
   },
 }

@@ -1,3 +1,4 @@
+
 let test#java#maventest#executable = 'mvnd'
 
 function! java#GetPosition()
@@ -99,17 +100,22 @@ local config = {
     settings = {
       java = {
         -- autobuild = { enabled = false }, -- if disabled, it doesn't build when testing from vim
-                                            -- if enabled, it takes time at launch
-        signatureHelp = { enabled = true };
-        contentProvider = { preferred = 'fernflower' };
+        -- if enabled, it takes time at launch
+        signatureHelp = {
+          enabled = true,
+          description = {
+            enabled = true,
+          },
+        },
+        server = {
+          launchMode = "Hybrid",
+        },
+        contentProvider = { preferred = 'fernflower' },
         eclipse = {
           downloadSources = true,
         },
         maven = {
           downloadSources = true,
-        },
-        references = {
-          includeDecompiledSource = true,
         },
         implementationsCodeLens = {
           enabled = true,
@@ -117,7 +123,9 @@ local config = {
         referencesCodeLens = {
           enabled = true,
         },
+        maxConcurrentBuilds = 4,
         references = {
+          includeAccessors = true,
           includeDecompiledSources = true,
         },
         inlayHints = {
@@ -131,17 +139,17 @@ local config = {
           },
           runtimes = {
             {
-              name = "JavaSE-1.8",
-              path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
+                name = "JavaSE-1.8",
+                path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
             },
             {
-              name = "JavaSE-11",
-              path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
+                name = "JavaSE-11",
+                path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
             },
             {
-              name = "JavaSE-17",
-              path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
-              default = true,
+                name = "JavaSE-17",
+                path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
+                default = true,
             },
           },
         },
@@ -164,10 +172,10 @@ local config = {
           generateComments = false,
           toString = {
             template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
-            },
+          },
           hashCodeEquals = {
             useJava7Objects = true,
-            },
+          },
           useBlocks = true,
         },
         completion = {
@@ -181,6 +189,9 @@ local config = {
           filteredTypes = {"java.awt.*","com.sun.*","sun.*","jdk.*","org.graalvm.*","io.micrometer.shaded.*", "javax.*", "groovy*"},
           favoriteStaticMembers ={"java.util.Objects.*", "org.assertj.core.api.Assertions.*", "org.junit.Assert.*","org.junit.Assume.*","org.junit.jupiter.api.Assertions.*","org.junit.jupiter.api.Assumptions.*","org.junit.jupiter.api.DynamicContainer.*","org.junit.jupiter.api.DynamicTest.*","org.mockito.Mockito.*","org.mockito.ArgumentMatchers.*","org.mockito.Answers.*"},
           guessMethodArguments = true,
+          chain = {
+            enabled = true,
+          },
         }
       }
     },

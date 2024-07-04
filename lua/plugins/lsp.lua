@@ -8,7 +8,7 @@ return {
     },
     opts = {
       registries = {
-        'github:nvim-java/mason-registry',
+        -- 'github:nvim-java/mason-registry',
         'github:mason-org/mason-registry',
       },
     },
@@ -16,6 +16,9 @@ return {
   {
     'https://gitlab.com/schrieveslaach/sonarlint.nvim',
     ft = "java",
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
   },
   'lukas-reineke/lsp-format.nvim',
   {
