@@ -39,6 +39,7 @@ return {
       require 'nvim-dap-virtual-text'.setup {
         -- virt_lines = true,
         all_references = true,
+        virt_text_pos = 'eol'
       }
     end,
   },

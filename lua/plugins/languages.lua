@@ -28,7 +28,7 @@ return {
           "regex",
         },
         indent = {
-          enable = false,
+          enable = true, -- checking it works
         },
         highlight = {
           enable = true,

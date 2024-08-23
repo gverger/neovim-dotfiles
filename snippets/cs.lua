@@ -88,7 +88,8 @@ return {
 
   s("test", fmt([[
         [TestMethod]
-        public void {}() {{
+        public void {}()
+        {{
           {}
         }}
         ]], { i(1, "TestName"), i(0) })),

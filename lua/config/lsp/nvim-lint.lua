@@ -16,6 +16,7 @@ function M.setup()
     html = { 'tidy' },
     java = { 'checkstyle' },
     dockerfile = { 'hadolint' },
+    norg = { 'vale', 'proselint' }
   }
 
   local vale = require('lint.linters.vale')

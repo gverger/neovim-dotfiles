@@ -30,7 +30,7 @@ local function manual_sonarlint_configuration()
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
 
-        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcsharp.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
@@ -46,7 +46,7 @@ local function manual_sonarlint_configuration()
       },
     },
 
-    filetypes = { 'python', 'java', 'cpp', 'javascriptreact' }
+    filetypes = { 'python', 'java', 'cpp', 'javascriptreact', 'cs' }
   })
 end
 
@@ -118,6 +118,7 @@ function M.setup()
     lspconfig.taplo,
     lspconfig.tsserver,
     lspconfig.vimls,
+    lspconfig.zls,
   }
 
   for _, server in pairs(simple_lsps) do

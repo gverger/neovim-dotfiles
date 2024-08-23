@@ -60,7 +60,7 @@ augroup MyComments
 augroup end
 ]]
 
-vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
+-- vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
 vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
 

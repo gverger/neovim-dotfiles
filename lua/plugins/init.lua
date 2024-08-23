@@ -1,17 +1,19 @@
 return {
   "folke/lazy.nvim",
-
+  'tpope/vim-rhubarb',
   {
-    'tpope/vim-fugitive',
+    'shumphrey/fugitive-gitlab.vim',
+    lazy = false,
+    dependencies = {
+      'tpope/vim-fugitive',
+    },
     keys = {
       { "<leader>gs", "<cmd>Git<CR>" },
     },
     config = function()
-      vim.g.fugitive_gitlab_domains = { 'https://gitlab.artelys.com' }
+      vim.g.fugitive_gitlab_domains = { "https://gitlab.artelys.lan/" }
     end
   },
-  'shumphrey/fugitive-gitlab.vim',
-  'tpope/vim-rhubarb',
   'tpope/vim-eunuch',
   'tpope/vim-projectionist',
   -- 'jeetsukumaran/vim-filebeagle',
@@ -56,7 +58,7 @@ return {
       vim.keymap.set({ "n" }, "<leader>dt", function()
         local l, c = unpack(vim.api.nvim_win_get_cursor(0))
         vim.api.nvim_buf_set_mark(0, "T", l, c, {})
-        require'neotest'.run.run()
+        require 'neotest'.run.run()
       end)
     end
   },
@@ -67,7 +69,7 @@ return {
       vim.keymap.set({ "n" }, "<leader>dt", function()
         local l, c = unpack(vim.api.nvim_win_get_cursor(0))
         vim.api.nvim_buf_set_mark(0, "T", l, c, {})
-        require'neotest'.run.run({strategy="dap"})
+        require 'neotest'.run.run({ strategy = "dap" })
       end)
     end,
     dependencies = {
