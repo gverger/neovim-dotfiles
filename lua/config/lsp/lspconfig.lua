@@ -208,6 +208,12 @@ function M.setup()
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
+      cake = {
+        enabled = false,
+      },
+      script = {
+        enabled = false,
+      },
       FormattingOptions = {
         EnableEditorConfigSupport = true,
         OrganizeImports = true,
@@ -217,7 +223,7 @@ function M.setup()
         enableImportCompletion = true,
         enableDecompilationSupport = true,
         inlayHintsOptions = {
-          enableForParameters = true,
+          enableForParameters = false,
           forLiteralParameters = true,
           forIndexerParameters = true,
           forObjectCreationParameters = true,
@@ -225,7 +231,7 @@ function M.setup()
           suppressForParametersThatDifferOnlyBySuffix = false,
           suppressForParametersThatMatchMethodIntent = false,
           suppressForParametersThatMatchArgumentName = false,
-          enableForTypes = true,
+          enableForTypes = false,
           forImplicitVariableTypes = true,
           forLambdaParameterTypes = true,
           forImplicitObjectCreation = true
