@@ -24,7 +24,10 @@ end
 
 local function next_line_contains_cursor(node)
   local cursor = vim.api.nvim_win_get_cursor(0)
-  return ts.is_in_node_range(node, cursor[1] + 1, cursor[2] - 1)
+  vim.print("" .. (cursor[1]) .. ", " .. (cursor[2]))
+  local row1, col1, row2, col2 = node:range()
+  vim.print("range: r1=" .. row1 .. ", c1=" .. col1 .. ", r2=" .. row2 .. ", c2=" .. col2)
+  return ts.is_in_node_range(node, cursor[1], cursor[2])
 end
 
 return {
@@ -59,7 +62,7 @@ return {
             "/// " .. node_text(name_node),
             "/// </summary>",
           }
-          local param_list = matches_for('list', query, match)
+          local param_list = matches_for('list', query, match) or {}
           for _, node in pairs(param_list) do
             if node ~= nil then
               for pattern, m, metadata in param_query:iter_matches(node, bufnr) do
@@ -75,12 +78,35 @@ return {
         end
       end
 
-      return "not found"
+      query = ts.query.parse('c_sharp', [[
+    [
+    (property_declaration name: _ @name) @decl
+    ]
+    ]])
+
+      for pattern, match, metadata in query:iter_matches(root, bufnr) do
+        local variable_name = match_for('decl', query, match)
+        if next_line_contains_cursor(variable_name) then
+          local name_node = match_for('name', query, match)
+          local res = {
+            "/// <summary>",
+            "/// " .. node_text(name_node),
+            "/// </summary>",
+          }
+          return res
+        end
+      end
+
+      return {
+        "/// <summary>",
+        "/// ",
+        "/// </summary>",
+      }
     end) })),
   s("getset",
     fmt([[public {} {} {{ get; set; }}]], { i(1, "string"), i(2, "variable") })),
 
-  s("namespc",
+  s("ns",
     fmt([[namespace {};]], { f(function()
       local relative_path = vim.fn.expand('%:p:.:h')
       return relative_path:gsub('/', '.')

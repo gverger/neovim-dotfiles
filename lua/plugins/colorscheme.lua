@@ -1,4 +1,5 @@
 return {
+    { "savq/melange-nvim" },
   {
     "rebelot/kanagawa.nvim",
     lazy = false,
@@ -54,20 +55,6 @@ return {
         autocmd ColorScheme * hi DiagnosticWarnWithBg guibg=#2f241a guifg=#FF9E3B
         autocmd ColorScheme * hi DiagnosticErrorWithBg guibg=#2d1717 guifg=#E82424
         autocmd ColorScheme * hi DiagnosticInfoWithBg guibg=#202123 guifg=#658594
-      ]])
-
-      vim.cmd([[
-        set encoding=utf-8
-        set ambiwidth=single
-
-        set t_ut=                " fix 256 colors in tmux http://sunaku.github.io/vim-256color-bce.html
-
-        if has("termguicolors")  " set true colors
-          let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-          let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-        endif
-        set termguicolors
-        colorscheme kanagawa-dragon
       ]])
     end
   }

@@ -119,7 +119,7 @@ return {
       { "<leader>a", ":Ack! ", desc = "Ack" },
     },
   },
-  'christoomey/vim-system-copy',
+  -- 'christoomey/vim-system-copy',
   'qpkorr/vim-bufkill',
   'folke/neodev.nvim',
   -- 'alok/notational-fzf-vim',

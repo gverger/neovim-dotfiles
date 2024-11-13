@@ -8,7 +8,7 @@ return {
     },
     opts = {
       registries = {
-        -- 'github:nvim-java/mason-registry',
+        'github:nvim-java/mason-registry',
         'github:mason-org/mason-registry',
       },
     },
@@ -25,6 +25,10 @@ return {
     'mfussenegger/nvim-jdtls',
     ft = "java",
   },
+  -- {
+  --   'nvim-java/nvim-java',
+  --   -- ft = 'java',
+  -- },
   'mfussenegger/nvim-lint',
   {
     'mfussenegger/nvim-dap',
@@ -47,4 +51,5 @@ return {
   'folke/trouble.nvim',
   'onsails/lspkind-nvim',
   'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+  'Hoffs/omnisharp-extended-lsp.nvim',
 }

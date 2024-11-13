@@ -45,8 +45,8 @@ set.shiftwidth = 2
 set.softtabstop = 2
 set.wildmode = "list:longest"
 set.number = true
-set.relativenumber = true
-set.cursorline = false
+set.relativenumber = false
+set.cursorline = true
 set.spell = false
 set.tagrelative = false
 set.exrc = true -- use local vimrc files
@@ -68,8 +68,10 @@ vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
 -- vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { noremap = true })
 -- vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true })
 -- vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true })
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
+
+-- Move selected lines up or down
+-- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true })
+-- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
 
 -- Not sure it is useful. Disabling it for now
 -- vim.g.vim_markdown_frontmatter = 1
@@ -83,6 +85,13 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "*.mos" },
   callback = function(ev)
     set.filetype = "mosel"
+  end
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "*.props" },
+  callback = function(ev)
+    set.filetype = "xml"
   end
 })
 

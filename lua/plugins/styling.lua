@@ -43,6 +43,10 @@ return {
             filter = { find = "No information available" },
             opts = { skip = true },
           },
+          {
+            filter = { find = "Analyzing %d file" },
+            opts = { skip = true },
+          },
           -- {
           --   view = "mini",
           --   filter = { event = "msg_showmode" },

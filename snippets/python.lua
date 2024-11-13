@@ -54,7 +54,7 @@ return {
     return assign_caller()
   end, { 1 }) })),
   s("category", fmt([[{}={}.{}.astype("category")]], { i(1), f(assign_caller), rep(1) })),
-  s("pvar", fmt([[print(f"{} = {{{}}} ({{type({}).__name__}})")]], { rep(1), i(1), rep(1) })),
+  s("pvar", fmt([[print(f"{} = {{vars({}) if '__dict__' in dir({}) else {}}} ({{type({}).__name__}})")]], { rep(1), i(1), rep(1), rep(1), rep(1) })),
   s("definit", fmt([[
   def __init__(self, {}):
   {}

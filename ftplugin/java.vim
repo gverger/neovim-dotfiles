@@ -1,5 +1,5 @@
 
-let test#java#maventest#executable = 'mvnd'
+"let test#java#maventest#executable = 'mvnd'
 
 function! java#GetPosition()
   let filename_modifier = get(g:, 'test#filename_modifier', ':.')

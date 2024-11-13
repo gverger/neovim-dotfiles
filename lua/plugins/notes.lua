@@ -5,6 +5,32 @@ return {
     config = true,   -- This automatically runs `require("luarocks-nvim").setup()`
   },
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('render-markdown').setup({
+        render_modes = { 'n', 'c', 'i' },
+        heading = {
+          enabled = true,
+          sign = false,
+          position = 'overlay',
+          width = 'full',
+        },
+        code = {
+          enabled = true,
+          sign = false,
+        },
+        bullet = {
+          icons = { "•" }
+        },
+        checkbox = {
+          position = "overlay",
+        }
+      })
+    end,
+  },
+  {
     'nvim-neorg/neorg',
     -- build = ":Neorg sync-parsers",
     dependencies = {

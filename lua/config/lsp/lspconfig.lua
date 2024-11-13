@@ -8,16 +8,6 @@ local function manual_sonarlint_configuration()
   end
   -- manual installation. come back later to check if we can use mason to install it
   require('sonarlint').setup({
-    -- server = {
-    --   -- Basic command to start sonarlint-language-server. Will be enhanced with additional command line options
-    --   cmd = {
-    --     "java", "-jar", "/home/gverger/bin/sonarlint/sonarlint-language-server-2.17.0-SNAPSHOT.jar",
-    --     "-stdio",
-    --     "-analyzers",
-    --     "/home/gverger/bin/sonarlint/plugins/sonarpython.jar",
-    --     "/home/gverger/bin/sonarlint/plugins/sonarjava.jar",
-    --   }
-    -- },
     server = {
       cmd = {
         'sonarlint-language-server',
@@ -30,11 +20,11 @@ local function manual_sonarlint_configuration()
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
 
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar")
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar")
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
@@ -46,15 +36,13 @@ local function manual_sonarlint_configuration()
       },
     },
 
-    filetypes = { 'python', 'java', 'cpp', 'javascriptreact', 'cs' }
+    filetypes = { 'python', 'java', 'cpp' },
   })
 end
 
 
 
 function M.setup()
-  manual_sonarlint_configuration()
-
   if not utils.has_plug('nvim-lspconfig') then
     vim.notify('nvim-lspconfig plugin not installed')
     return
@@ -109,14 +97,17 @@ function M.setup()
     lspconfig.dotls,
     lspconfig.esbonio,
     lspconfig.groovyls,
+    -- lspconfig.harper_ls,
     lspconfig.marksman,
     -- lspconfig.pylsp,
+    lspconfig.ruff,
     lspconfig.rnix,
     lspconfig.ruby_lsp,
     lspconfig.rust_analyzer,
     lspconfig.tailwindcss,
     lspconfig.taplo,
-    lspconfig.tsserver,
+    -- lspconfig.typos_lsp,
+    lspconfig.ts_ls,
     lspconfig.vimls,
     lspconfig.zls,
   }
@@ -127,6 +118,119 @@ function M.setup()
       capabilities = capabilities,
     }
   end
+
+  -- require('java').setup({
+  --   jdk = {
+  --     auto_install = false,
+  --   },
+  -- })
+  -- lspconfig.jdtls.setup({
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   handlers = {
+  --     -- By assigning an empty function, you can remove the notifications
+  --     -- printed to the cmd
+  --     ["$/progress"] = function(_, result, ctx) end,
+  --   },
+  --   settings = {
+  --     java = {
+  --       -- autobuild = { enabled = false }, -- if disabled, it doesn't build when testing from vim
+  --       -- if enabled, it takes time at launch
+  --       signatureHelp = {
+  --         enabled = true,
+  --         description = {
+  --           enabled = true,
+  --         },
+  --       },
+  --       server = {
+  --         launchMode = "Hybrid",
+  --       },
+  --       contentProvider = { preferred = 'fernflower' },
+  --       eclipse = {
+  --         downloadSources = true,
+  --       },
+  --       maven = {
+  --         downloadSources = true,
+  --       },
+  --       implementationsCodeLens = {
+  --         enabled = true,
+  --       },
+  --       referencesCodeLens = {
+  --         enabled = true,
+  --       },
+  --       maxConcurrentBuilds = 4,
+  --       references = {
+  --         includeAccessors = true,
+  --         includeDecompiledSources = true,
+  --       },
+  --       inlayHints = {
+  --         parameterNames = {
+  --           enabled = "none", -- literals, all, none
+  --         },
+  --       },
+  --       configuration = {
+  --         maven = {
+  --           userSettings = "/home/gverger/artelys/powsybl-griffin/.mvn/local-settings.xml"
+  --         },
+  --         runtimes = {
+  --           {
+  --             name = "JavaSE-1.8",
+  --             path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
+  --           },
+  --           {
+  --             name = "JavaSE-11",
+  --             path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
+  --           },
+  --           {
+  --             name = "JavaSE-17",
+  --             path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
+  --             default = true,
+  --           },
+  --         },
+  --       },
+  --       format = {
+  --         settings = {
+  --           url = "file:/home/gverger/.config/custom/artelys-style.xml",
+  --         }
+  --       },
+  --       saveActions = {
+  --         organizeImports = false
+  --       },
+  --       sources = {
+  --         organizeImports = {
+  --           starThreshold = 5,
+  --           staticStarThreshold = 3,
+  --         }
+  --       },
+  --       -- memberSortOrder= {"T", "SI", "SF", "F", "SM", "C", "I", "M"},
+  --       codeGeneration = {
+  --         generateComments = false,
+  --         toString = {
+  --           template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+  --         },
+  --         hashCodeEquals = {
+  --           useJava7Objects = true,
+  --         },
+  --         useBlocks = true,
+  --       },
+  --       completion = {
+  --         overwrite = true,
+  --         importOrder = {
+  --           "",
+  --           "javax",
+  --           "java",
+  --           "#" -- static starts with #
+  --         },
+  --         filteredTypes = { "java.awt.*", "com.sun.*", "sun.*", "jdk.*", "org.graalvm.*", "io.micrometer.shaded.*", "javax.*", "groovy*" },
+  --         favoriteStaticMembers = { "java.util.Objects.*", "org.assertj.core.api.Assertions.*", "org.junit.Assert.*", "org.junit.Assume.*", "org.junit.jupiter.api.Assertions.*", "org.junit.jupiter.api.Assumptions.*", "org.junit.jupiter.api.DynamicContainer.*", "org.junit.jupiter.api.DynamicTest.*", "org.mockito.Mockito.*", "org.mockito.ArgumentMatchers.*", "org.mockito.Answers.*" },
+  --         guessMethodArguments = true,
+  --         chain = {
+  --           enabled = true,
+  --         },
+  --       }
+  --     }
+  --   },
+  -- })
 
   lspconfig.html.setup {
     on_attach = on_attach,
@@ -207,6 +311,12 @@ function M.setup()
   lspconfig.omnisharp.setup {
     on_attach = on_attach,
     capabilities = capabilities,
+    handlers = {
+      ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+      ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+      ["textDocument/references"] = require('omnisharp_extended').references_handler,
+      ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
+    },
     settings = {
       cake = {
         enabled = false,
@@ -283,19 +393,35 @@ function M.setup()
   lspconfig.lua_ls.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    settings = {
-      Lua = {
-        -- runtime = { -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        --   version = 'LuaJIT',
-        -- },
+    on_init = function(client)
+      if client.workspace_folders then
+        local path = client.workspace_folders[1].name
+        if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+          return
+        end
+      end
+
+      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+        runtime = {
+          -- Tell the language server which version of Lua you're using
+          -- (most likely LuaJIT in the case of Neovim)
+          -- version = 'LuaJIT'
+        },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
           globals = { 'vim' },
         },
+        -- Make the server aware of Neovim runtime files
         workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
           checkThirdParty = false,
+          -- library = {
+            -- vim.env.VIMRUNTIME
+            -- Depending on the usage, you might want to add additional paths here.
+            -- "${3rd}/luv/library"
+            -- "${3rd}/busted/library",
+          -- }
+          -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+          library = vim.api.nvim_get_runtime_file("", true)
         },
         hint = {
           enable = true,
@@ -304,7 +430,9 @@ function M.setup()
         telemetry = {
           enable = false,
         },
-      },
+      })
+    end,
+    settings = {
     },
   }
 
@@ -379,6 +507,8 @@ function M.setup()
       exportPdf = "onType" -- Choose onType, onSave or never.
     }
   }
+
+  manual_sonarlint_configuration()
 end
 
 return M
