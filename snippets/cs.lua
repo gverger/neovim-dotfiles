@@ -24,9 +24,7 @@ end
 
 local function next_line_contains_cursor(node)
   local cursor = vim.api.nvim_win_get_cursor(0)
-  vim.print("" .. (cursor[1]) .. ", " .. (cursor[2]))
   local row1, col1, row2, col2 = node:range()
-  vim.print("range: r1=" .. row1 .. ", c1=" .. col1 .. ", r2=" .. row2 .. ", c2=" .. col2)
   return ts.is_in_node_range(node, cursor[1], cursor[2])
 end
 

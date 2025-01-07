@@ -52,6 +52,10 @@ set.tagrelative = false
 set.exrc = true -- use local vimrc files
 set.completeopt = { "menu", "menuone", "noselect" }
 set.foldenable = false
+set.modeline = false
+set.scrolloff = 10
+
+
 vim.cmd [[
 augroup MyComments
   autocmd!
@@ -60,7 +64,7 @@ augroup MyComments
 augroup end
 ]]
 
--- vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
+vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
 vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
 
@@ -97,6 +101,21 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "appsettings.*.model" },
+  callback = function(ev)
+    set.filetype = "json"
+  end
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "appsettings.json" },
+  callback = function(ev)
+    set.filetype = "jsonc"
+  end
+})
+
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "devbox.lock" },
   callback = function(ev)
     set.filetype = "json"
   end

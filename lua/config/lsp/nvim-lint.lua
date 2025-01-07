@@ -14,7 +14,7 @@ function M.setup()
     sh = { 'shellcheck', },
     -- python = { 'pylint', },
     html = { 'tidy' },
-    java = { 'checkstyle' },
+    -- java = { 'checkstyle' },
     dockerfile = { 'hadolint' },
     norg = { 'vale', 'proselint' }
   }

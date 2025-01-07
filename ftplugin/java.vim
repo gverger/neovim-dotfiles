@@ -130,7 +130,8 @@ local config = {
         },
         inlayHints = {
           parameterNames = {
-            enabled = "none", -- literals, all, none
+            -- enabled = "none", -- literals, all, none
+            enabled = "all", -- literals, all, none
           },
         },
         configuration = {
@@ -220,7 +221,7 @@ end
 --     end
 --   end,
 config.handlers = config.handlers or {}
-config.handlers['language/status'] = function() end
+-- config.handlers['language/status'] = function() end
 require('jdtls').start_or_attach(config)
 
 vim.keymap.set({ "n" }, "<leader>dt", function()

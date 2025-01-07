@@ -43,15 +43,27 @@ return {
   },
   {
     'nvim-neotest/neotest',
-    lazy = true,
     dependencies = {
       'nvim-neotest/neotest-vim-test',
+      { "fredrikaverpil/neotest-golang", version = "*" },
+      {
+        'Issafalcon/neotest-dotnet',
+        -- ft = "cs",
+        -- config = function()
+        --   vim.keymap.set({ "n" }, "<leader>dt", function()
+        --     local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+        --     vim.api.nvim_buf_set_mark(0, "T", l, c, {})
+        --     require 'neotest'.run.run({ strategy = "dap" })
+        --   end)
+        -- end,
+      },
     },
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-vim-test")({ ignore_file_types = { "cs", "java" } }),
           require("neotest-dotnet"),
+          require("neotest-golang")({ runner = "gotestsum" }),
+          require("neotest-vim-test")({ ignore_file_types = { "cs", "java", "go" } }),
         },
       })
 
@@ -61,20 +73,6 @@ return {
         require 'neotest'.run.run()
       end)
     end
-  },
-  {
-    'Issafalcon/neotest-dotnet',
-    ft = "cs",
-    config = function()
-      vim.keymap.set({ "n" }, "<leader>dt", function()
-        local l, c = unpack(vim.api.nvim_win_get_cursor(0))
-        vim.api.nvim_buf_set_mark(0, "T", l, c, {})
-        require 'neotest'.run.run({ strategy = "dap" })
-      end)
-    end,
-    dependencies = {
-      'nvim-neotest/neotest',
-    }
   },
   'tpope/vim-surround',
   'tpope/vim-repeat',

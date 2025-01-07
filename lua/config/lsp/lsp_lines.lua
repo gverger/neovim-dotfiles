@@ -34,7 +34,8 @@ local function distance_between_cols(bufnr, lnum, start_col, end_col)
   end
 
   local sub = string.sub(lines[1], start_col, end_col)
-  return vim.fn.strdisplaywidth(sub, 0) -- these are indexed starting at 0
+  -- return vim.fn.strdisplaywidth(sub, 0) -- these are indexed starting at 0
+  return #sub -- don't use vim.fn.strdisplaywidth for this apparently
 end
 
 
@@ -280,6 +281,7 @@ end
 
 local function load_lsp_lines()
   local lsp_lines = require('lsp_lines')
+
 
   lsp_lines.setup()
 

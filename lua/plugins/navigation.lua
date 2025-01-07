@@ -24,6 +24,7 @@ return {
           require('oil.actions').close.callback()
         end,
       },
+      skip_confirm_for_simple_edits = true,
       view_options = {
         hidden = true
       },

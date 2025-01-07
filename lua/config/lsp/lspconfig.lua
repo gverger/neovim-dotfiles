@@ -96,7 +96,7 @@ function M.setup()
     lspconfig.dockerls,
     lspconfig.dotls,
     lspconfig.esbonio,
-    lspconfig.groovyls,
+    -- lspconfig.groovyls,
     -- lspconfig.harper_ls,
     lspconfig.marksman,
     -- lspconfig.pylsp,
@@ -477,12 +477,12 @@ function M.setup()
               name = "devbox.schema.json",
               url = "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox.schema.json",
             },
-            {
-              description = "Sherpa configuration",
-              fileMatch = { "/home/gverger/syleps/HeterogeneousPalletizing/**/appsettings*.{json,model}" },
-              name = "sherpa.schema.json",
-              url = "/home/gverger/.config/custom/sherpa-config-schema.json"
-            },
+            -- {
+            --   description = "Sherpa configuration",
+            --   fileMatch = { "/home/gverger/syleps/HeterogeneousPalletizing/**/appsettings*.{json,model,jsonc}" },
+            --   name = "sherpa.schema.json",
+            --   url = "/home/gverger/.config/custom/sherpa-config-schema.json"
+            -- },
           }
         },
         validate = { enable = true },
@@ -502,9 +502,11 @@ function M.setup()
     },
   }
 
-  lspconfig.typst_lsp.setup {
+  lspconfig.tinymist.setup {
+    offset_encoding = "utf-8", -- semantic tokens error
     settings = {
-      exportPdf = "onType" -- Choose onType, onSave or never.
+      exportPdf = "never", -- Choose onType, onSave or never.
+      formatterMode = "typstfmt",
     }
   }
 

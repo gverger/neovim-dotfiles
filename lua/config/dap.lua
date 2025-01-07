@@ -180,10 +180,11 @@ function M.setup()
 
   local dap = require("dap")
   local dapui = require("dapui")
+  require('dap-go').setup()
 
   dapui.setup()
 
-  configure_csharp(dap)
+  -- configure_csharp(dap)
 
   define_keymaps(dap, dapui)
   configure_style()
