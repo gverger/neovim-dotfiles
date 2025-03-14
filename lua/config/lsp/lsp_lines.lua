@@ -270,8 +270,8 @@ function M.show(bufnr, diagnostics, opts)
       zindex = win_config.zindex + 1,
       row = vim.fn.winline(),
       col = vim.fn.wincol() - col_number - 2 + first_non_blank,
-      width = cols,
-      height = math.min(#virt_lines, vim.fn.winheight(0) - vim.fn.winline() + 1),
+      width = math.max(1, cols),
+      height = math.max(1, math.min(#virt_lines, vim.fn.winheight(0) - vim.fn.winline() + 1)),
       style = "minimal",
     })
 

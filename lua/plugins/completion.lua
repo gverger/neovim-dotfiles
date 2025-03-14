@@ -81,12 +81,12 @@ return {
         },
 
         sources = cmp.config.sources({
+          { name = "lazydev", group_index = 0 },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'nvim_lua' },
           { name = 'async_path' },
           -- { name = 'orgmode' },
-          { name = 'neorg' },
+          -- { name = 'neorg' },
         }, {
           {
             name = 'buffer',
@@ -105,7 +105,7 @@ return {
               buffer = "[buf]",
               nvim_lsp = "[lsp]",
               luasnip = "[snip]",
-              nvim_lua = "[lua]",
+              lazydev = "[lua]",
               async_path = "[path]",
               -- orgmode = "[org]",
               nvim_lsp_signature_help = "[sig]",

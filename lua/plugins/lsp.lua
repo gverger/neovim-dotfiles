@@ -21,14 +21,14 @@ return {
     },
   },
   'lukas-reineke/lsp-format.nvim',
-  {
-    'mfussenegger/nvim-jdtls',
-    ft = "java",
-  },
   -- {
-  --   'nvim-java/nvim-java',
-  --   -- ft = 'java',
+  --   'mfussenegger/nvim-jdtls',
+  --   ft = "java",
   -- },
+  {
+    'nvim-java/nvim-java',
+    -- ft = 'java',
+  },
   'mfussenegger/nvim-lint',
   {
     'mfussenegger/nvim-dap',
@@ -61,6 +61,12 @@ return {
           null_ls.builtins.diagnostics.checkstyle.with({
             -- generator_opts = vim.tbl_extend("force", null_ls.builtins.diagnostics.checkstyle.generator_opts,
             --   { multiple_files = true }),
+            runtime_condition = function(utils)
+              if string.find(vim.fn.expand('%:h'), 'target') then
+                return false
+              end
+              return true
+            end,
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
             extra_args = { "-c", checkstyle_file },
           }),

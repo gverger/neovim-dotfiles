@@ -10,13 +10,13 @@ function M.setup()
 
   require('lint').linters_by_ft = {
     -- markdown = { 'vale', 'proselint' },
-    typst = { 'vale', 'proselint' },
+    -- typst = { 'vale', 'proselint' },
     sh = { 'shellcheck', },
     -- python = { 'pylint', },
     html = { 'tidy' },
     -- java = { 'checkstyle' },
     dockerfile = { 'hadolint' },
-    norg = { 'vale', 'proselint' }
+    -- norg = { 'vale', 'proselint' }
   }
 
   local vale = require('lint.linters.vale')

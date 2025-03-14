@@ -15,18 +15,18 @@ local function define_keymaps(dap, dapui)
   end
 end
 
-local lspconfig = require('lspconfig')
+-- local lspconfig = require('lspconfig')
 
-local function csproj_dir(current_file)
-  local csproj_path = nil
-  lspconfig.util.search_ancestors(current_file, function(path)
-    if lspconfig.util.path.exists(vim.fn.glob(path .. "/*.csproj")) then
-      csproj_path = path
-      return true
-    end
-  end)
-  return csproj_path
-end
+-- local function csproj_dir(current_file)
+--   local csproj_path = nil
+--   lspconfig.util.search_ancestors(current_file, function(path)
+--     if lspconfig.util.path.exists(vim.fn.glob(path .. "/*.csproj")) then
+--       csproj_path = path
+--       return true
+--     end
+--   end)
+--   return csproj_path
+-- end
 
 local function build_current_project(current_file)
   local project_dir = csproj_dir(current_file)
@@ -180,9 +180,9 @@ function M.setup()
 
   local dap = require("dap")
   local dapui = require("dapui")
-  require('dap-go').setup()
 
   dapui.setup()
+  require('dap-go').setup()
 
   -- configure_csharp(dap)
 

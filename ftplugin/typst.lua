@@ -51,10 +51,6 @@ local function import_file(import_folder)
 end
 
 
-vim.api.nvim_buf_create_user_command(0, "ImportDownload", function()
-  import_file("/mnt/d/Download")
-end, {})
-
 vim.api.nvim_buf_create_user_command(0, "ImportScreenshot", function()
   import_file("/mnt/d/Documents/ShareX/Screenshots")
 end, {})

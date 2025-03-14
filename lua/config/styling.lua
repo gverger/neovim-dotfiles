@@ -12,8 +12,8 @@ function M.setup()
         let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
       endif
       set termguicolors
-      "colorscheme kanagawa-dragon
-      colorscheme melange
+      colorscheme kanagawa-dragon
+      "colorscheme melange
     ]])
 end
 

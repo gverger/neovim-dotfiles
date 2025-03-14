@@ -15,13 +15,12 @@ local function manual_sonarlint_configuration()
         '-stdio',
         '-analyzers',
 
-        -- only 3 working atm
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
-        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
 
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
-        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarhtml.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonariac.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjs.jar")
@@ -29,14 +28,14 @@ local function manual_sonarlint_configuration()
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonartext.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarxml.jar"),
       },
-      settings = { -- Hack, sinon fait lagger les LSP : https://gitlab.com/schrieveslaach/sonarlint.nvim/-/issues/14
-        sonarlint = {
-          test = 'test',
-        },
-      },
     },
 
-    filetypes = { 'python', 'java', 'cpp' },
+    filetypes = {
+      'java',
+      -- 'python',
+      -- 'cpp',
+      -- 'go',
+    },
   })
 end
 
@@ -48,19 +47,19 @@ function M.setup()
     return
   end
 
-  local neodev = require('neodev')
-
-  if neodev then
-    neodev.setup {
-      override = function(_, library)
-        library.enabled = true
-        library.plugins = true
-      end,
-      library = {
-        plugins = { "nvim-dap-ui", types = true },
-      }
-    }
-  end
+  -- local neodev = require('neodev')
+  --
+  -- if neodev then
+  --   neodev.setup {
+  --     override = function(_, library)
+  --       library.enabled = true
+  --       library.plugins = true
+  --     end,
+  --     library = {
+  --       plugins = { "nvim-dap-ui", types = true },
+  --     }
+  --   }
+  -- end
 
 
   local lspconfig = require 'lspconfig'
@@ -119,118 +118,137 @@ function M.setup()
     }
   end
 
-  -- require('java').setup({
-  --   jdk = {
-  --     auto_install = false,
-  --   },
-  -- })
-  -- lspconfig.jdtls.setup({
-  --   on_attach = on_attach,
-  --   capabilities = capabilities,
-  --   handlers = {
-  --     -- By assigning an empty function, you can remove the notifications
-  --     -- printed to the cmd
-  --     ["$/progress"] = function(_, result, ctx) end,
-  --   },
-  --   settings = {
-  --     java = {
-  --       -- autobuild = { enabled = false }, -- if disabled, it doesn't build when testing from vim
-  --       -- if enabled, it takes time at launch
-  --       signatureHelp = {
-  --         enabled = true,
-  --         description = {
-  --           enabled = true,
-  --         },
-  --       },
-  --       server = {
-  --         launchMode = "Hybrid",
-  --       },
-  --       contentProvider = { preferred = 'fernflower' },
-  --       eclipse = {
-  --         downloadSources = true,
-  --       },
-  --       maven = {
-  --         downloadSources = true,
-  --       },
-  --       implementationsCodeLens = {
-  --         enabled = true,
-  --       },
-  --       referencesCodeLens = {
-  --         enabled = true,
-  --       },
-  --       maxConcurrentBuilds = 4,
-  --       references = {
-  --         includeAccessors = true,
-  --         includeDecompiledSources = true,
-  --       },
-  --       inlayHints = {
-  --         parameterNames = {
-  --           enabled = "none", -- literals, all, none
-  --         },
-  --       },
-  --       configuration = {
-  --         maven = {
-  --           userSettings = "/home/gverger/artelys/powsybl-griffin/.mvn/local-settings.xml"
-  --         },
-  --         runtimes = {
-  --           {
-  --             name = "JavaSE-1.8",
-  --             path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
-  --           },
-  --           {
-  --             name = "JavaSE-11",
-  --             path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
-  --           },
-  --           {
-  --             name = "JavaSE-17",
-  --             path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
-  --             default = true,
-  --           },
-  --         },
-  --       },
-  --       format = {
-  --         settings = {
-  --           url = "file:/home/gverger/.config/custom/artelys-style.xml",
-  --         }
-  --       },
-  --       saveActions = {
-  --         organizeImports = false
-  --       },
-  --       sources = {
-  --         organizeImports = {
-  --           starThreshold = 5,
-  --           staticStarThreshold = 3,
-  --         }
-  --       },
-  --       -- memberSortOrder= {"T", "SI", "SF", "F", "SM", "C", "I", "M"},
-  --       codeGeneration = {
-  --         generateComments = false,
-  --         toString = {
-  --           template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
-  --         },
-  --         hashCodeEquals = {
-  --           useJava7Objects = true,
-  --         },
-  --         useBlocks = true,
-  --       },
-  --       completion = {
-  --         overwrite = true,
-  --         importOrder = {
-  --           "",
-  --           "javax",
-  --           "java",
-  --           "#" -- static starts with #
-  --         },
-  --         filteredTypes = { "java.awt.*", "com.sun.*", "sun.*", "jdk.*", "org.graalvm.*", "io.micrometer.shaded.*", "javax.*", "groovy*" },
-  --         favoriteStaticMembers = { "java.util.Objects.*", "org.assertj.core.api.Assertions.*", "org.junit.Assert.*", "org.junit.Assume.*", "org.junit.jupiter.api.Assertions.*", "org.junit.jupiter.api.Assumptions.*", "org.junit.jupiter.api.DynamicContainer.*", "org.junit.jupiter.api.DynamicTest.*", "org.mockito.Mockito.*", "org.mockito.ArgumentMatchers.*", "org.mockito.Answers.*" },
-  --         guessMethodArguments = true,
-  --         chain = {
-  --           enabled = true,
-  --         },
-  --       }
-  --     }
-  --   },
-  -- })
+  require('java').setup({
+    root_markers = {
+      ".git",
+    },
+    jdk = {
+      auto_install = false,
+    },
+  })
+  local config = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    handlers = {
+      -- By assigning an empty function, you can remove the notifications
+      -- printed to the cmd
+      ["$/progress"] = function(_, result, ctx) end,
+    },
+    settings = {
+      java = {
+        -- autobuild = { enabled = false }, -- if disabled, it doesn't build when testing from vim
+        -- if enabled, it takes time at launch
+        signatureHelp = {
+          enabled = true,
+          description = {
+            enabled = true,
+          },
+        },
+        server = {
+          launchMode = "Hybrid",
+        },
+        contentProvider = { preferred = 'fernflower' },
+        eclipse = {
+          downloadSources = true,
+        },
+        maven = {
+          downloadSources = true,
+        },
+        implementationsCodeLens = {
+          enabled = true,
+        },
+        referencesCodeLens = {
+          enabled = true,
+        },
+        maxConcurrentBuilds = 4,
+        references = {
+          includeAccessors = true,
+          includeDecompiledSources = true,
+        },
+        inlayHints = {
+          parameterNames = {
+            enabled = "none", -- literals, all, none
+          },
+        },
+        configuration = {
+          maven = {
+            userSettings = "/home/gverger/artelys/powsybl-griffin/.mvn/local-settings.xml"
+          },
+          runtimes = {
+            {
+              name = "JavaSE-1.8",
+              path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
+            },
+            {
+              name = "JavaSE-11",
+              path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
+            },
+            {
+                name = "JavaSE-17",
+                path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
+            },
+            {
+              name = "JavaSE-21",
+              path = "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/",
+              default = true,
+            },
+          },
+        },
+        format = {
+          settings = {
+            url = "file:/home/gverger/.config/custom/artelys-style.xml",
+          }
+        },
+        saveActions = {
+          organizeImports = false
+        },
+        sources = {
+          organizeImports = {
+            starThreshold = 5,
+            staticStarThreshold = 3,
+          }
+        },
+        -- memberSortOrder= {"T", "SI", "SF", "F", "SM", "C", "I", "M"},
+        codeGeneration = {
+          generateComments = false,
+          toString = {
+            template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+          },
+          hashCodeEquals = {
+            useJava7Objects = true,
+          },
+          useBlocks = true,
+        },
+        completion = {
+          overwrite = true,
+          importOrder = {
+            "",
+            "javax",
+            "java",
+            "#" -- static starts with #
+          },
+          filteredTypes = { "java.awt.*", "com.sun.*", "sun.*", "jdk.*", "org.graalvm.*", "io.micrometer.shaded.*", "javax.*", "groovy*" },
+          favoriteStaticMembers = { "java.util.Objects.*", "org.assertj.core.api.Assertions.*", "org.junit.Assert.*", "org.junit.Assume.*", "org.junit.jupiter.api.Assertions.*", "org.junit.jupiter.api.Assumptions.*", "org.junit.jupiter.api.DynamicContainer.*", "org.junit.jupiter.api.DynamicTest.*", "org.mockito.Mockito.*", "org.mockito.ArgumentMatchers.*", "org.mockito.Answers.*" },
+          guessMethodArguments = true,
+          chain = {
+            enabled = true,
+          },
+        }
+      }
+    },
+  }
+
+
+  config.on_init = function(client, _)
+        if vim.g.custom_jdtls_config then
+          config = vim.tbl_deep_extend("force", config, vim.g.custom_jdtls_config)
+          vim.print("custom jdtls config loaded")
+        end
+      client.notify('workspace/didChangeConfiguration', { settings = config.settings })
+  end
+
+
+  lspconfig.jdtls.setup(config)
 
   lspconfig.html.setup {
     on_attach = on_attach,
@@ -262,19 +280,24 @@ function M.setup()
     pyright_cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
   end
 
-  lspconfig.pyright.setup {
+  if utils.file_readable("uv.lock") then
+    pyright_cmd = { "uv", "run", "basedpyright-langserver", "--stdio" }
+  end
+
+  lspconfig.basedpyright.setup {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = pyright_cmd,
     settings = {
-      python = {
+      basedpyright = {
+        disableOrganizeImports = false,
         analysis = {
           typeCheckingMode = 'basic',
           useLibraryCodeForTypes = true,
+          diagnosticSeverityOverrides = {
+            reportPrivateImportUsage = false,
+          }
         },
-      },
-      pyright = {
-        disableOrganizeImports = false,
       }
     }
   }
@@ -503,10 +526,11 @@ function M.setup()
   }
 
   lspconfig.tinymist.setup {
-    offset_encoding = "utf-8", -- semantic tokens error
+    -- offset_encoding = "utf-8", -- semantic tokens error
     settings = {
       exportPdf = "never", -- Choose onType, onSave or never.
       formatterMode = "typstfmt",
+      -- semantic_tokens = "disable",
     }
   }
 
