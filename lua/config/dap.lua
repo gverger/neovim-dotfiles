@@ -185,6 +185,17 @@ function M.setup()
   require('dap-go').setup()
 
   -- configure_csharp(dap)
+  -- dap.configurations.java = {
+  --   {
+  --     name = "Remote Debug (5005)",
+  --     mainClass="com.powsybl.tools.Main",
+  --     projectName="powsybl-griffin-tools",
+  --     type = "java",
+  --     request = "attach",
+  --     hostname = "127.0.0.1",
+  --     port = 5005,
+  --   },
+  -- }
 
   define_keymaps(dap, dapui)
   configure_style()

@@ -1,16 +1,11 @@
 return {
   {
     'williamboman/mason.nvim',
+    -- version = "1.10.0",
     lazy = true,
     dependencies = {
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
-    },
-    opts = {
-      registries = {
-        'github:nvim-java/mason-registry',
-        'github:mason-org/mason-registry',
-      },
     },
   },
   {
@@ -21,14 +16,14 @@ return {
     },
   },
   'lukas-reineke/lsp-format.nvim',
-  -- {
-  --   'mfussenegger/nvim-jdtls',
-  --   ft = "java",
-  -- },
   {
-    'nvim-java/nvim-java',
-    -- ft = 'java',
+    'mfussenegger/nvim-jdtls',
+    ft = "java",
   },
+  -- {
+  --   'nvim-java/nvim-java',
+  --   -- ft = 'java',
+  -- },
   'mfussenegger/nvim-lint',
   {
     'mfussenegger/nvim-dap',
@@ -54,7 +49,7 @@ return {
           null_ls.builtins.diagnostics.hadolint,
           -- null_ls.builtins.diagnostics.proselint,
           null_ls.builtins.diagnostics.rstcheck,
-          null_ls.builtins.diagnostics.selene,
+          -- null_ls.builtins.diagnostics.selene,
           -- null_ls.builtins.diagnostics.semgrep.with({
           --   method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
           -- }),
@@ -89,6 +84,6 @@ return {
   'b0o/schemastore.nvim',
   'folke/trouble.nvim',
   'onsails/lspkind-nvim',
-  'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+  -- 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
   'Hoffs/omnisharp-extended-lsp.nvim',
 }

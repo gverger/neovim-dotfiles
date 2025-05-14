@@ -24,7 +24,6 @@ require("lazy").setup(
   }
 )
 
-
 vim.g.shortmess = "aFW" -- short messages + do not show file name when switching to the file
 vim.g.ackprg = 'rg --vimgrep -M 1000 --max-columns-preview'
 

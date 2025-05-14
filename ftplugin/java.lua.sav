@@ -1,0 +1,20 @@
+-- vim.cmd([[
+--   let test#java#maventest#executable = 'mvnd'
+-- ]])
+
+-- vim.keymap.set({ "n" }, "<leader>dt", function()
+--   local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+--   vim.api.nvim_buf_set_mark(0, "T", l, c, {})
+--   require 'java'.test.debug_current_method()
+-- end)
+--
+-- vim.keymap.set({ "n" }, "<leader>dc", function()
+--   require 'java'.test.debug_current_class()
+-- end)
+--
+-- vim.keymap.set({ "n" }, "dg", "'T")
+--
+-- vim.bo.tabstop = 4
+-- vim.bo.shiftwidth = 4
+-- vim.bo.softtabstop = 4
+-- vim.bo.tw = 119

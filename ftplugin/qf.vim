@@ -1,6 +1,6 @@
-hi! link TestInfo DiagnosticSignInfo
-hi! link TestWarn DiagnosticSignWarn
-hi! link TestError DiagnosticSignError
+hi! link TestInfo DiagnosticInfo
+hi! link TestWarn DiagnosticWarn
+hi! link TestError DiagnosticError
 hi! TestSuccess guifg=Green
 
 augroup TestsColors

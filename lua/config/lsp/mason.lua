@@ -8,7 +8,7 @@ function M.setup()
     return
   end
 
-  -- require("mason").setup {}
+  require("mason").setup {}
 
   if not utils.has_plug('mason-lspconfig.nvim') then
     vim.notify('mason-lspconfig.nvim plugin not installed')
@@ -29,10 +29,15 @@ function M.setup()
       "lemminx",
       "lua_ls",
       "marksman",
-      "solargraph",
-      "sourcery",
+      -- "solargraph",
+      -- "sourcery",
       "ts_ls",
       "vimls",
+    },
+    automatic_enable = {
+      exclude = {
+        "jdtls",
+      },
     },
   }
 end

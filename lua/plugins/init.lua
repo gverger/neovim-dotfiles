@@ -166,6 +166,7 @@ return {
     config = function()
       vim.cmd([[
     let g:lightline = {
+          \ 'colorscheme': "zenbones",
           \ 'component': {
           \   'lineinfo': "\ %3l\xee\xaa\x9d\xee\xaa\x9f%-2v%<",
           \ },
