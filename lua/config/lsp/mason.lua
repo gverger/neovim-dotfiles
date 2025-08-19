@@ -34,11 +34,12 @@ function M.setup()
       "ts_ls",
       "vimls",
     },
-    automatic_enable = {
-      exclude = {
-        "jdtls",
-      },
-    },
+    automatic_enable = false,
+    -- {
+    --   exclude = {
+    --     "jdtls",
+    --   },
+    -- },
   }
 end
 

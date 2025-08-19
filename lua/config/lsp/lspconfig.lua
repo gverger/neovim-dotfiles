@@ -98,9 +98,10 @@ function M.setup()
     -- lspconfig.groovyls,
     -- lspconfig.harper_ls,
     lspconfig.marksman,
+    lspconfig.nil_ls,
     -- lspconfig.pylsp,
     lspconfig.ruff,
-    lspconfig.rnix,
+    -- lspconfig.rnix,
     lspconfig.ruby_lsp,
     lspconfig.rust_analyzer,
     lspconfig.tailwindcss,
@@ -279,7 +280,7 @@ function M.setup()
     end,
     capabilities = capabilities,
     init_options = {
-      compilationDatabaseDirectory = ".",
+      compilationDatabaseDirectory = "build",
     }
   }
 
@@ -287,7 +288,7 @@ function M.setup()
   local pyright_cmd = lspconfig.pyright.cmd
 
   if utils.file_readable("poetry.lock") then
-    pyright_cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
+    pyright_cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
   end
 
   if utils.file_readable("uv.lock") then
@@ -544,7 +545,7 @@ function M.setup()
     }
   }
 
-  manual_sonarlint_configuration()
+  -- manual_sonarlint_configuration()
 end
 
 return M

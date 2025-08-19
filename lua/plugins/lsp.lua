@@ -30,6 +30,7 @@ return {
     dependencies = {
       'nvim-neotest/nvim-nio',
       'leoluz/nvim-dap-go',
+      'jonboh/nvim-dap-rr',
     }
   },
   {
@@ -71,16 +72,17 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
   },
   'rcarriga/nvim-dap-ui',
-  {
-    'theHamsta/nvim-dap-virtual-text',
-    config = function()
-      require 'nvim-dap-virtual-text'.setup {
-        -- virt_lines = true,
-        all_references = true,
-        virt_text_pos = 'eol'
-      }
-    end,
-  },
+  -- {
+  --   'theHamsta/nvim-dap-virtual-text',
+  --   config = function()
+  --     require 'nvim-dap-virtual-text'.setup {
+  --       -- virt_lines = true,
+  --       all_references = true,
+  --       virt_text_pos = 'eol'
+  --
+  --     }
+  --   end,
+  -- },
   'b0o/schemastore.nvim',
   'folke/trouble.nvim',
   'onsails/lspkind-nvim',

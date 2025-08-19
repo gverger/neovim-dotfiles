@@ -184,6 +184,50 @@ function M.setup()
   dapui.setup()
   require('dap-go').setup()
 
+  local mason_bin = "/home/gverger/.local/share/nvim/mason/bin/"
+  local cpptools_path = mason_bin .. "/OpenDebugAD7"
+  dap.adapters.cppdbg = {
+    id = 'cppdbg',
+    type = 'executable',
+    command = cpptools_path,
+  }
+  dap.adapters.codelldb = {
+    type = "executable",
+    command = "codelldb",
+  }
+
+  local rr_dap = require("nvim-dap-rr")
+  rr_dap.setup({ })
+  dap.configurations.cpp = { rr_dap.get_config({
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+  }) }
+  -- dap.configurations.cpp = {
+  --   {
+  --     name = "Launch file",
+  --     type = "codelldb",
+  --     request = "launch",
+  --     stdio = { "set_covering_pace2025/pace2025_ds/other/sample.gr", nil },
+  --     program = function()
+  --       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+  --     end,
+  --     cwd = '${workspaceFolder}',
+  --     stopOnEntry = false,
+  --   },
+  --   {
+  --     name = "Replay",
+  --     type = "codelldb",
+  --     request = "attach",
+  --     -- targetCreateCommands = {"target create ${workspaceFolder}/dap/debuggee"},
+  --     targetCreateCommands = function()
+  --       return { "target", "create", "build_dap/debuggee"}
+  --     end,
+  --     processCreateCommands = {"gdb-remote", "127.0.0.1:9999"},
+  --     reverseDebugging = true,
+  --   },
+  -- }
+
   -- configure_csharp(dap)
   -- dap.configurations.java = {
   --   {

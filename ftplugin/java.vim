@@ -62,7 +62,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local on_attach = function(client, bufnr)
   require('jdtls').setup_dap({hotcodereplace = 'auto'})
-  require('config.lsp.codelens').on_attach(client, bufnr)
+  -- require('config.lsp.codelens').on_attach(client, bufnr)
   vim.cmd([[
   augroup lsp_document_highlight
   autocmd! * <buffer>
