@@ -1,5 +1,14 @@
 return {
   {
+    "retran/meow.yarn.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    config = function()
+      require("meow.yarn").setup({
+        -- Your custom configuration goes here
+      })
+    end,
+  },
+  {
     'williamboman/mason.nvim',
     -- version = "1.10.0",
     lazy = true,

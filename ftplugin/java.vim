@@ -1,5 +1,5 @@
 
-"let test#java#maventest#executable = 'mvnd'
+let test#java#maventest#executable = 'mvnd'
 
 function! java#GetPosition()
   let filename_modifier = get(g:, 'test#filename_modifier', ':.')
@@ -132,6 +132,14 @@ local config = {
           parameterNames = {
             -- enabled = "none", -- literals, all, none
             enabled = "all", -- literals, all, none
+          },
+        },
+        compile = {
+          nullAnalysis = {
+            mode = "automatic",
+            nonnull = 'org.jetbrains.annotations.NotNull',
+            nullable = 'org.jetbrains.annotations.Nullable',
+            nonnullbydefault = 'org.eclipse.jdt.annotation.NonNullByDefault',
           },
         },
         configuration = {

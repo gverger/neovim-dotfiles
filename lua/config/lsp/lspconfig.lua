@@ -545,7 +545,7 @@ function M.setup()
     }
   }
 
-  -- manual_sonarlint_configuration()
+  manual_sonarlint_configuration()
 end
 
 return M
