@@ -128,8 +128,12 @@ function M.setup()
   vim.lsp.enable("nil_ls")
   vim.lsp.enable("ruby_lsp")
   vim.lsp.enable("ruff")
-  vim.lsp.enable("tototo")
 
+  -- not sure why I need to repeat the config here
+  vim.lsp.config('clangd', {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  })
   vim.lsp.enable("clangd")
 
   if utils.file_readable("poetry.lock") then
