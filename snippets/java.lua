@@ -6,9 +6,11 @@ local function node_text(node)
 end
 
 local function match_for(name, query, match)
-  for id, node in pairs(match) do
+  for id, nodes in pairs(match) do
     if name == query.captures[id] then
-      return node
+      for _, node in ipairs(nodes) do
+        return node
+      end
     end
   end
   return nil

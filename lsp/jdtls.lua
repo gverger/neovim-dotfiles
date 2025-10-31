@@ -7,16 +7,16 @@ local bundles = {
 local vscode_java_test = mason_packages .. "java-test/extension/"
 
 vim.list_extend(bundles, vim.split(vim.fn.glob(vscode_java_test .. "server/*.jar", 1), "\n"))
+vim.list_extend(bundles, require("spring_boot").java_extensions())
 
-bundles = vim.tbl_filter(function(s)
-  return not vim.endswith(s, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
-end, bundles) or {}
+-- bundles = vim.tbl_filter(function(s)
+--   return not vim.endswith(s, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
+-- end, bundles) or {}
 
 local extendedClientCapabilities = require('jdtls').extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
 
-return
-{
+local config = {
   on_attach = function(client, bufnr)
     require('jdtls').setup_dap()
     require('config.lsp.codelens').on_attach(client, bufnr)
@@ -54,7 +54,7 @@ return
       referencesCodeLens = {
         enabled = true,
       },
-      maxConcurrentBuilds = 4,
+      maxConcurrentBuilds = 8,
       references = {
         includeAccessors = true,
         includeDecompiledSources = true,
@@ -153,3 +153,9 @@ return
     end,
   },
 }
+
+if vim.g.custom_jdtls_config then
+  config = vim.tbl_deep_extend("force", config, vim.g.custom_jdtls_config)
+end
+
+return config

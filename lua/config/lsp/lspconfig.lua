@@ -167,8 +167,35 @@ function M.setup()
   vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/")
   local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
   local workspace_dir = '/home/gverger/.local/share/jdtls-workspace/' .. project_name
+
+  local root_files = {
+    -- Single-module projects
+    {
+      '.vim-workspace',
+    },
+    {
+      'build.xml',           -- Ant
+      'pom.xml',             -- Maven
+      'settings.gradle',     -- Gradle
+      'settings.gradle.kts', -- Gradle
+    },
+    -- Multi-module projects
+    { 'build.gradle', 'build.gradle.kts' },
+  }
+
+  -- local function root_directory()
+  --   local fname = vim.fn.getcwd()
+  --   for _, patterns in ipairs(root_files) do
+  --     local root = lspconfig.util.root_pattern(unpack(patterns))(fname)
+  --     if root then
+  --       return root
+  --     end
+  --   end
+  -- end
+  --
   vim.lsp.config("jdtls", {
     cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true' },
+    root_markers = root_files,
   })
   vim.lsp.enable("jdtls")
 

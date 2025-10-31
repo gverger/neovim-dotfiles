@@ -62,7 +62,7 @@
   "schemastore.nvim": { "branch": "main", "commit": "22f0c2f7c727a15b45b7bfcbbab533720223b840" },
   "sonarlint.nvim": { "branch": "main", "commit": "dc5702556f90eedce587233f3c1a0ae671ea3648" },
   "splitjoin.vim": { "branch": "main", "commit": "b55d5ba3e2b2649317925c21a68f90c8f28ec3e9" },
-  "spotify-player.nvim": { "branch": "main", "commit": "341c2af27937fc680c2500ffa0da6c2a80b5da1e" },
+  "spring-boot.nvim": { "branch": "main", "commit": "dff5fc9ff38dc60514caf95d57b0dbcd4da9028a" },
   "telescope-dap.nvim": { "branch": "master", "commit": "783366bd6c1e7fa0a5c59c07db37f49c805a28df" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "1f08ed60cafc8f6168b72b80be2b2ea149813e55" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },

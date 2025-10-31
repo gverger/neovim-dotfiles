@@ -54,6 +54,7 @@ set.completeopt = { "menu", "menuone", "noselect" }
 set.foldenable = false
 set.modeline = false
 set.scrolloff = 3
+set.signcolumn = "yes"
 
 
 vim.cmd [[

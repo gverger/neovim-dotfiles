@@ -26,7 +26,7 @@ function M.setup()
       "html",
       "jdtls",
       "jsonls",
-      "lemminx",
+      -- "lemminx",
       "lua_ls",
       "marksman",
       -- "solargraph",
