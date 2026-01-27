@@ -128,6 +128,26 @@ function M.setup()
   vim.lsp.enable("nil_ls")
   vim.lsp.enable("ruby_lsp")
   vim.lsp.enable("ruff")
+  vim.lsp.enable("typst")
+
+  vim.lsp.config("ols", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    init_options = {
+      checker_args="-strict-style",
+      enable_checker_only_saved = false,
+      verbose=true,
+
+    },
+
+  })
+  vim.lsp.enable("ols")
+
+  vim.lsp.config("rust_analyzer", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  })
+  vim.lsp.enable("rust_analyzer")
 
   -- not sure why I need to repeat the config here
   vim.lsp.config('clangd', {
@@ -197,10 +217,10 @@ function M.setup()
   --   end
   -- end
   --
-  vim.lsp.config("jdtls", {
-    cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true' },
-    root_markers = root_files,
-  })
+  -- vim.lsp.config("jdtls", {
+  --   cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true' },
+  --   root_markers = root_files,
+  -- })
   vim.lsp.enable("jdtls")
 
   -- Try to mark autobuild off, and compile on save, but too many problems
@@ -414,6 +434,7 @@ function M.setup()
       -- semantic_tokens = "disable",
     }
   })
+  vim.lsp.enable("tinymist")
 
   manual_sonarlint_configuration()
 end

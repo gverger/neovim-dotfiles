@@ -9,6 +9,7 @@ return {
     keys = {
       { "-", "<cmd>Oil<CR>" }
     },
+    lazy = false,
     opts = {
       use_default_keymaps = false,
       keymaps = {
@@ -60,7 +61,7 @@ return {
     },
   },
   {
-    'ggandor/leap.nvim',
+    url = "https://codeberg.org/andyg/leap.nvim",
     config = function()
       -- require("leap").add_default_mappings()
       require("leap").opts.highlight_unlabeled_phase_one_targets = true
