@@ -250,4 +250,9 @@ return {
       vim.g.neoformat_run_all_formatters = 1
     end,
   },
-}
+	{
+		"mireq/large_file",
+		config = function()
+			require("large_file").setup()
+		end
+	},}

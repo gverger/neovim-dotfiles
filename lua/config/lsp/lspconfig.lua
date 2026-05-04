@@ -223,6 +223,17 @@ function M.setup()
   -- })
   vim.lsp.enable("jdtls")
 
+  vim.api.nvim_create_autocmd("VimLeavePre", {
+    callback = function()
+      for _, client in pairs(vim.lsp.get_active_clients()) do
+        if client.name == "jdtls" then
+          vim.print("Closing jdtls...")
+          client.stop(true)
+        end
+      end
+    end,
+  })
+
   -- Try to mark autobuild off, and compile on save, but too many problems
   -- vim.api.nvim_create_autocmd("BufWritePost", {
   --   -- on save, compile the project
