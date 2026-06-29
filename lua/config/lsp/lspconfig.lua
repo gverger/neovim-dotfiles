@@ -17,7 +17,7 @@ local function manual_sonarlint_configuration()
 
         vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarjava.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarcfamily.jar"),
-        -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
+        vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarpython.jar"),
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonargo.jar"),
 
         -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarlintomnisharp.jar"),
@@ -32,7 +32,7 @@ local function manual_sonarlint_configuration()
 
     filetypes = {
       'java',
-      -- 'python',
+      'python',
       -- 'cpp',
       -- 'go',
     },
@@ -129,6 +129,22 @@ function M.setup()
   vim.lsp.enable("ruby_lsp")
   vim.lsp.enable("ruff")
   vim.lsp.enable("typst")
+  vim.lsp.config('sorbet', {
+    cmd = { "srb", "tc", "--lsp", "--dir=." },
+  })
+  vim.lsp.enable("sorbet")
+
+
+  vim.lsp.config("cucumber_language_server", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      cucumber = {
+        glue = {"**/steps/**/*.java"},
+      },
+    },
+  })
+  vim.lsp.enable("cucumber_language_server")
 
   vim.lsp.config("ols", {
     on_attach = on_attach,
@@ -221,7 +237,106 @@ function M.setup()
   --   cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true' },
   --   root_markers = root_files,
   -- })
+  vim.lsp.config("jdtls", {
+    cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true',
+    '-XX:+UseParallelGC', '-XX:GCTimeRatio=4', '-XX:AdaptiveSizePolicyWeight=90', '-Dsun.zip.disableMemoryMapping=true', '-Xmx4G', '-Xms100m' },
+
+    root_markers = root_files,
+  })
   vim.lsp.enable("jdtls")
+
+  -- vim.lsp.config("jls", {})
+  -- vim.lsp.enable("jls")
+
+  -- CHATGPT
+--   local jdtls = require("jdtls")
+--
+-- local root_dir = jdtls.setup.find_root({
+--   ".git",
+--   -- "mvnw",
+--   -- "gradlew",
+--   -- "pom.xml",
+--   -- "build.gradle",
+-- })
+--
+-- local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+-- local workspace_dir = vim.fn.stdpath("data") .. "/jdtls/" .. project_name
+--
+-- local config = {
+--   cmd = {
+--     "jdtls",
+--     "-data",
+--     workspace_dir,
+--   },
+--
+--   root_dir = root_dir,
+--
+--   settings = {
+--     java = {
+--         autobuild = {
+--           enabled = false,
+--         },
+--       configuration = {
+--         updateBuildConfiguration = "disabled",
+--       },
+--
+--       format = {
+--         enabled = true,
+--       },
+--
+--       maven = {
+--         downloadSources = true,
+--       },
+--
+--       signatureHelp = {
+--         enabled = true,
+--       },
+--
+--       contentProvider = { preferred = "fernflower" },
+--
+--       completion = {
+--         guessMethodArguments = true,
+--       },
+--
+--       inlayHints = {
+--         parameterNames = {
+--           enabled = "none",
+--         },
+--       },
+--
+--       codeGeneration = {
+--         toString = {
+--           template = "${object.className}{${member.name()}=${member.value}}",
+--         },
+--       },
+--
+--       referencesCodeLens = {
+--         enabled = false,
+--       },
+--
+--       implementationsCodeLens = {
+--         enabled = false,
+--       },
+--
+--       saveActions = {
+--         organizeImports = false,
+--       },
+--     },
+--   },
+--
+--   init_options = {
+--     extendedClientCapabilities = jdtls.extendedClientCapabilities,
+--   },
+--
+--   on_attach = function(client, bufnr)
+--     jdtls.setup_dap({ hotcodereplace = "auto" })
+--
+--     vim.lsp.codelens.refresh()
+--   end,
+-- }
+--
+-- jdtls.start_or_attach(config)
+  -- END CHATGPT
 
   vim.api.nvim_create_autocmd("VimLeavePre", {
     callback = function()

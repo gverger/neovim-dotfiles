@@ -27,7 +27,15 @@ vim.list_extend(bundles, require("spring_boot").java_extensions())
 local extendedClientCapabilities = require('jdtls').extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
 
+local capabilities = vim.tbl_deep_extend("force",
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+)
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
 local config = {
+  root_dir= require("jdtls").setup.find_root({".git"}),
+  capabilities = capabilities,
   on_attach = function(client, bufnr)
     require('jdtls').setup_dap()
     require('config.lsp.codelens').on_attach(client, bufnr)
@@ -157,11 +165,12 @@ local config = {
   },
   handlers = {
     ["language/status"] = function() end,
-    ["textDocument/didSave"] = function()
-      vim.notify("saved")
-
-      require('jdtls').compile()
-    end,
+    -- apparently, textDocument/didSave is not triggered
+    -- ["textDocument/didSave"] = function()
+    --   vim.notify("saved")
+    --
+    --   require('jdtls').compile()
+    -- end,
   },
 }
 

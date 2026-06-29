@@ -1,4 +1,26 @@
 return {
+-- {
+  -- "idelice/nvim-jls",
+  --   opts = {
+  --   },
+  --   config = function()
+  --     require("jls").setup({
+  --       -- root_markers = {
+  --       --   -- "pom.xml",
+  --       --   -- "build.gradle",
+  --       --   -- "build.gradle.kts",
+  --       --   -- "settings.gradle",
+  --       --   -- "settings.gradle.kts",
+  --       --   -- "WORKSPACE",
+  --       --   -- "WORKSPACE.bazel",
+  --       --   -- ".java-version",
+  --       --   ".git",
+  --       -- },
+  --       -- jls_dir = "/home/gverger/git/jls/dist",
+  --     })
+  --   end
+  -- },
+
   {
     "JavaHello/spring-boot.nvim",
     ft = {"java", "yaml", "jproperties"},

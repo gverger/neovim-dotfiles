@@ -240,6 +240,19 @@ function M.setup()
   --     port = 5005,
   --   },
   -- }
+    dap.configurations.java = {
+      {
+          type = "java",
+          request = "launch",
+          name = "Debug Cucumber",
+
+          mainClass = "org.junit.platform.console.ConsoleLauncher",
+
+          args = "--select-class=com.example.RunCucumberTest",
+
+          projectName = "my-project",
+      },
+  }
 
   define_keymaps(dap, dapui)
   configure_style()

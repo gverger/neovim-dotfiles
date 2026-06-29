@@ -34,7 +34,7 @@
 
 [
  "or"
-] @keyword.operatot
+] @keyword.operator
 
 [
   "uses"
