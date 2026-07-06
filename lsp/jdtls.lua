@@ -109,11 +109,11 @@ local config = {
           {
             name = "JavaSE-17",
             path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
-            default = true,
           },
           {
             name = "JavaSE-21",
             path = "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/",
+            default = true,
           },
         },
       },

@@ -17,6 +17,10 @@ function M.setup()
   vim.keymap.set("n", "<leader>lN", vim.diagnostic.goto_prev, { noremap = true, silent = true })
   vim.keymap.set("n", "<leader>ll", function() vim.cmd [[:Telescope diagnostics bufnr=0]] end,
     { noremap = true, silent = true })
+  vim.api.nvim_create_user_command("LspLog", function()
+    local filename = vim.lsp.log.get_filename()
+    vim.cmd("e " .. filename)
+  end, {})
 end
 
 return M
