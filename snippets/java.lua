@@ -1,5 +1,4 @@
 local ts = vim.treesitter
-local ts_utils = require 'nvim-treesitter.ts_utils'
 
 local function node_text(node)
   return ts.get_node_text(node, 0)
@@ -25,7 +24,7 @@ return {
   s({
     trig = "log",
     show_condition = function ()
-      local node = ts_utils.get_node_at_cursor(0, false)
+      local node = vim.treesitter.get_node()
       print(node)
       if node == nil then
         return false

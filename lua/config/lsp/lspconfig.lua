@@ -126,7 +126,7 @@ function M.setup()
   vim.lsp.enable("cmake")
   vim.lsp.enable("dotls")
   vim.lsp.enable("nil_ls")
-  vim.lsp.enable("ruby_lsp")
+  vim.lsp.enable("ruby-lsp")
   vim.lsp.enable("ruff")
   vim.lsp.enable("typst")
   vim.lsp.config('sorbet', {
@@ -204,7 +204,7 @@ function M.setup()
   })
   vim.lsp.enable("gopls")
 
-  vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/")
+  vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/temurin-25.0.3+9.0.LTS/")
   local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
   local workspace_dir = '/home/gverger/.local/share/jdtls-workspace/' .. project_name
 

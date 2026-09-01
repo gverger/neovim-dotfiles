@@ -13,8 +13,6 @@ local function current_line()
   return lines[1] or ""
 end
 
-local ts_utils = require('nvim-treesitter.ts_utils')
-
 local function put(...)
   local objects = {}
   for i = 1, select('#', ...) do
@@ -27,7 +25,7 @@ local function put(...)
 end
 
 local function assign_caller()
-  local current_node = ts_utils.get_node_at_cursor()
+  local current_node = vim.treesitter.get_node()
   if not current_node then
     return ""
   end
@@ -43,7 +41,8 @@ local function assign_caller()
     local type = child:type()
 
     if type == 'identifier' or type == 'operator_name' then
-      return (ts_utils.get_node_text(child))
+      -- return (ts_utils.get_node_text(child))
+      return vim.treesitter.get_node_text(child)
     end
   end
   return ""

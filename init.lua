@@ -69,6 +69,8 @@ vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
 vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
 
+vim.keymap.set('x', 'p', 'P', { noremap = true })
+
 -- vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { noremap = true })
 -- vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { noremap = true })
 -- vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true })

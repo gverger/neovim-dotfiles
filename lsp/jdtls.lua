@@ -115,6 +115,11 @@ local config = {
             path = "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/",
             default = true,
           },
+          {
+            name = "JavaSE-25",
+            path = "/home/gverger/.asdf/installs/java/temurin-25.0.3+9.0.LTS/",
+            default = true,
+          },
         },
       },
       format = {

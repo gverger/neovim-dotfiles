@@ -19,7 +19,7 @@ augroup JAVA
 
   au BufWritePost *.java lua require('lint').try_lint()
 augroup END
-au FileType java nnoremap <buffer> <leader>dt :lua require('jdtls').test_nearest_method()<CR>
+"au FileType java nnoremap <buffer> <leader>dt :lua require('jdtls').test_nearest_method()<CR>
 
 setlocal tabstop=4 shiftwidth=4 softtabstop=4
 nnoremap <leader>dg 'T

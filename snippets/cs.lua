@@ -2,7 +2,6 @@ local luasnip = require('luasnip')
 local s = luasnip.s
 local i = luasnip.i
 local ts = vim.treesitter
-local ts_utils = require 'nvim-treesitter.ts_utils'
 
 local function node_text(node)
   return ts.get_node_text(node, 0)

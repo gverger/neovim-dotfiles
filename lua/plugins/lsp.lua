@@ -84,6 +84,7 @@ return {
       end
 
       null_ls.setup({
+        debug = true,
         sources = {
           null_ls.builtins.diagnostics.alex,
           null_ls.builtins.diagnostics.dotenv_linter,

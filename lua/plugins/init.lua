@@ -25,7 +25,7 @@ return {
   -- },
   'bronson/vim-trailing-whitespace',
   'tmhedberg/matchit',
-  'sickill/vim-pasta',
+  -- 'sickill/vim-pasta',
   'tpope/vim-dispatch',
   'christoomey/vim-tmux-navigator',
   {
@@ -40,6 +40,16 @@ return {
       vim.g["test#strategy"] = "dispatch"
       vim.g["test#preserve_screen"] = 1
     end,
+  },
+  {
+    "rcasia/neotest-java",
+    ft = "java",
+    dependencies = {
+      "mfussenegger/nvim-jdtls",
+      "mfussenegger/nvim-dap", -- for debugging (optional)
+      "rcarriga/nvim-dap-ui", -- recommended
+      "theHamsta/nvim-dap-virtual-text", -- recommended
+    },
   },
   {
     'nvim-neotest/neotest',
@@ -64,6 +74,7 @@ return {
           require("neotest-dotnet"),
           require("neotest-golang")({ runner = "gotestsum" }),
           require("neotest-vim-test")({ ignore_file_types = { "cs", "java", "go" } }),
+          require("neotest-java")({}),
         },
       })
 

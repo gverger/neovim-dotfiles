@@ -18,6 +18,7 @@ function M.setup()
   require('config.lsp.nvim-lint').setup()
   require('config.lsp.styling').setup()
   require('config.lsp.mappings').setup()
+  -- vim.lsp.set_log_level("debug")
 end
 
 return M
