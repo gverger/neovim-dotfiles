@@ -69,7 +69,7 @@ vim.keymap.set('n', '<CR>', ':noh<CR><CR>', { noremap = true })
 vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
 vim.keymap.set('i', '<C-s>', '<esc>:w<CR>', { noremap = true })
 
-vim.keymap.set('x', 'p', 'P', { noremap = true })
+vim.keymap.set('x', 'p', 'P', { noremap = true }) -- keep yank buffer
 
 -- vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { noremap = true })
 -- vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { noremap = true })
@@ -95,27 +95,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   end
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  pattern = { "*.props" },
-  callback = function(ev)
-    set.filetype = "xml"
-  end
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  pattern = { "appsettings.*.model" },
-  callback = function(ev)
-    set.filetype = "json"
-  end
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  pattern = { "appsettings.json" },
-  callback = function(ev)
-    set.filetype = "jsonc"
-  end
-})
-
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "devbox.lock" },
@@ -131,48 +110,3 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 --     end
 --   end,
 -- })
-
-local function import_file(import_folder)
-  local actions_state = require("telescope.actions.state")
-  local actions = require("telescope.actions")
-
-  local Path = require('pathlib')
-  local folder = Path(vim.api.nvim_buf_get_name(0)):parent()
-
-  local print_selected_entry = function(prompt_bufnr)
-    local selected_entry = actions_state.get_selected_entry()
-
-    local filepath = Path(selected_entry[1])
-    local new_file = vim.fn.input("Filename: images/")
-
-    if new_file == "" then
-      vim.notify("No name provided", vim.log.levels.ERROR)
-    end
-
-    if Path(new_file):suffix() ~= filepath:suffix() then
-      new_file = new_file .. filepath:suffix()
-    end
-
-    local new_file_path = folder / "images" / new_file
-
-    if not filepath:copy(new_file_path) then
-      vim.notify("Image could not be copied to " .. new_file_path, vim.log.levels.ERROR)
-    end
-    actions.close(prompt_bufnr)
-  end
-
-  require("telescope.builtin").find_files({
-    attach_mappings = function(_, map)
-      map("n", "<cr>", print_selected_entry)
-      map("i", "<cr>", print_selected_entry)
-      return true
-    end,
-    search_dirs = { import_folder },
-    find_command = { "rg", "--files", "--color", "never", "--iglob", "*.{jpg,jpeg,png,webp}" },
-  })
-end
-
-vim.api.nvim_create_user_command("ImportDownload", function()
-  import_file("/mnt/d/Download")
-end, {})
-
