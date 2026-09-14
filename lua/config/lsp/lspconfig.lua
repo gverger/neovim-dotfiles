@@ -204,9 +204,11 @@ function M.setup()
   })
   vim.lsp.enable("gopls")
 
-  vim.fn.setenv("JAVA_HOME", "/home/gverger/.asdf/installs/java/temurin-25.0.3+9.0.LTS/")
+  vim.fn.setenv("JAVA_HOME", "/home/gverger/.local/share/mise/installs/java/temurin-25/")
   local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
   local workspace_dir = '/home/gverger/.local/share/jdtls-workspace/' .. project_name
+
+  local lombok_path = vim.fn.expand("$MASON/share/jdtls/lombok.jar")
 
   local root_files = {
     -- Single-module projects
@@ -238,8 +240,12 @@ function M.setup()
   --   root_markers = root_files,
   -- })
   vim.lsp.config("jdtls", {
-    cmd = { '/home/gverger/.local/share/nvim/mason/bin/jdtls', '-data', workspace_dir, '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true',
-    '-XX:+UseParallelGC', '-XX:GCTimeRatio=4', '-XX:AdaptiveSizePolicyWeight=90', '-Dsun.zip.disableMemoryMapping=true', '-Xmx4G', '-Xms100m' },
+    cmd = {
+      '/home/gverger/.local/share/nvim/mason/bin/jdtls',
+      "--jvm-arg=-javaagent:" .. lombok_path,
+      '-data', workspace_dir,
+      '--jvm-arg=-Dlog.level=ALL', '--jvm-arg=-Dlog.protocol=true',
+      '-XX:+UseParallelGC', '-XX:GCTimeRatio=4', '-XX:AdaptiveSizePolicyWeight=90', '-Dsun.zip.disableMemoryMapping=true', '-Xmx4G', '-Xms100m' },
 
     root_markers = root_files,
   })

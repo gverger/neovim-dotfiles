@@ -99,25 +99,21 @@ local config = {
         updateBuildConfiguration = "automatic",
         runtimes = {
           {
-            name = "JavaSE-1.8",
-            path = "/home/gverger/.asdf/installs/java/temurin-8.0.362+9/",
-          },
-          {
             name = "JavaSE-11",
-            path = "/home/gverger/.asdf/installs/java/openjdk-11.0.2/",
+            path = "/home/gverger/.local/share/mise/installs/java/11",
           },
           {
             name = "JavaSE-17",
-            path = "/home/gverger/.asdf/installs/java/openjdk-17.0.2/",
+            path = "/home/gverger/.local/share/mise/installs/java/17",
           },
           {
             name = "JavaSE-21",
-            path = "/home/gverger/.asdf/installs/java/temurin-21.0.0+35.0.LTS/",
+            path = "/home/gverger/.local/share/mise/installs/java/temurin-21",
             default = true,
           },
           {
             name = "JavaSE-25",
-            path = "/home/gverger/.asdf/installs/java/temurin-25.0.3+9.0.LTS/",
+            path = "/home/gverger/.local/share/mise/installs/java/temurin-25/",
             default = true,
           },
         },
