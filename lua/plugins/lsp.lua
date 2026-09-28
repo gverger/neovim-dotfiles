@@ -1,5 +1,5 @@
 return {
--- {
+  -- {
   -- "idelice/nvim-jls",
   --   opts = {
   --   },
@@ -23,7 +23,7 @@ return {
 
   {
     "JavaHello/spring-boot.nvim",
-    ft = {"java", "yaml", "jproperties"},
+    ft = { "java", "yaml", "jproperties" },
     dependencies = {
       "mfussenegger/nvim-jdtls", -- or nvim-java, nvim-lspconfig
     },
@@ -128,6 +128,12 @@ return {
   'b0o/schemastore.nvim',
   'folke/trouble.nvim',
   'onsails/lspkind-nvim',
-  -- 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
   'Hoffs/omnisharp-extended-lsp.nvim',
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "lewis6991/async.nvim",
+    },
+    lazy = false,
+  },
 }

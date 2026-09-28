@@ -16,16 +16,8 @@ return {
   },
   'tpope/vim-eunuch',
   'tpope/vim-projectionist',
-  -- 'jeetsukumaran/vim-filebeagle',
-  -- {
-  --   'numToStr/Comment.nvim',
-  --   config = function()
-  --     require('Comment').setup()
-  --   end,
-  -- },
   'bronson/vim-trailing-whitespace',
   'tmhedberg/matchit',
-  -- 'sickill/vim-pasta',
   'tpope/vim-dispatch',
   'christoomey/vim-tmux-navigator',
   {
@@ -46,44 +38,82 @@ return {
     ft = "java",
     dependencies = {
       "mfussenegger/nvim-jdtls",
-      "mfussenegger/nvim-dap", -- for debugging (optional)
-      "rcarriga/nvim-dap-ui", -- recommended
-      "theHamsta/nvim-dap-virtual-text", -- recommended
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
     },
   },
+  { 'nvim-neotest/neotest-vim-test' },
+  { "fredrikaverpil/neotest-golang", version = "*", ft = "go" },
   {
     'nvim-neotest/neotest',
     dependencies = {
-      'nvim-neotest/neotest-vim-test',
-      { "fredrikaverpil/neotest-golang", version = "*" },
-      {
-        'Issafalcon/neotest-dotnet',
-        -- ft = "cs",
-        -- config = function()
-        --   vim.keymap.set({ "n" }, "<leader>dt", function()
-        --     local l, c = unpack(vim.api.nvim_win_get_cursor(0))
-        --     vim.api.nvim_buf_set_mark(0, "T", l, c, {})
-        --     require 'neotest'.run.run({ strategy = "dap" })
-        --   end)
-        -- end,
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      adapters = {
+        ["neotest-golang"] = { runner = "gotestsum" },
+        ["neotest-vim-test"] = { ignore_file_types = { "cs", "java", "go" } },
+        ["neotest-java"] = {},
       },
     },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-dotnet"),
-          require("neotest-golang")({ runner = "gotestsum" }),
-          require("neotest-vim-test")({ ignore_file_types = { "cs", "java", "go" } }),
-          require("neotest-java")({}),
-        },
-      })
+    keys = {
+      { "<leader>dt",
+        function()
+          vim.keymap.set({ "n" }, "<leader>dt", function()
+            local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+            vim.api.nvim_buf_set_mark(0, "T", l, c, {})
+            require 'neotest'.run.run()
+          end)
+        end
+      },
 
-      vim.keymap.set({ "n" }, "<leader>dt", function()
-        local l, c = unpack(vim.api.nvim_win_get_cursor(0))
-        vim.api.nvim_buf_set_mark(0, "T", l, c, {})
-        require 'neotest'.run.run()
-      end)
-    end
+    },
+    config = function(_, opts)
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            -- Replace newline and tab characters with space for more compact diagnostics
+            local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
+
+      if opts.adapters then
+        local adapters = {}
+        for name, config in pairs(opts.adapters or {}) do
+          if type(name) == "number" then
+            if type(config) == "string" then
+              config = require(config)
+            end
+            adapters[#adapters + 1] = config
+          elseif config ~= false then
+            local adapter = require(name)
+            if type(config) == "table" and not vim.tbl_isempty(config) then
+              local meta = getmetatable(adapter)
+              if adapter.setup then
+                adapter.setup(config)
+              elseif adapter.adapter then
+                adapter.adapter(config)
+                adapter = adapter.adapter
+              elseif meta and meta.__call then
+                adapter = adapter(config)
+              else
+                error("Adapter " .. name .. " does not support setup")
+              end
+            end
+            adapters[#adapters + 1] = adapter
+          end
+        end
+        opts.adapters = adapters
+      end
+
+      require("neotest").setup(opts)
+    end,
   },
   'tpope/vim-surround',
   'tpope/vim-repeat',
@@ -262,9 +292,9 @@ return {
       vim.g.neoformat_run_all_formatters = 1
     end,
   },
-	{
-		"mireq/large_file",
-		config = function()
-			require("large_file").setup()
-		end
-	},}
+  {
+    "mireq/large_file",
+    config = function()
+      require("large_file").setup()
+    end
+  }, }

@@ -81,7 +81,7 @@ return {
         },
 
         sources = cmp.config.sources({
-          { name = "lazydev", group_index = 0 },
+          { name = "lazydev",   group_index = 0 },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'async_path' },
@@ -92,7 +92,12 @@ return {
             name = 'buffer',
             option = {
               get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
+                local bufs = {}
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                  local buf = vim.api.nvim_win_get_buf(win)
+                  bufs[buf] = true
+                end
+                return vim.tbl_keys(bufs)
               end
             },
           },

@@ -13,24 +13,24 @@ return {
     opts = {
       use_default_keymaps = false,
       keymaps = {
-        ["_"] = "actions.open_cwd",
-        ["-"] = "actions.parent",
+        ["_"] = { "actions.open_cwd", mode = "n" },
+        ["-"] = { "actions.parent", mode = "n" },
+        ["<C-c>"] = { "actions.close", mode = "n" },
+        ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+        ["<C-l>"] = "actions.refresh",
         ["<C-r>"] = "actions.refresh",
+        ["<C-v>"] = { "actions.select", opts = { vertical = true, close = true } },
         ["<CR>"] = "actions.select",
-        ["g."] = "actions.toggle_hidden",
-        ["g?"] = "actions.show_help",
+        ["g."] = { "actions.toggle_hidden", mode = "n" },
+        ["g?"] = { "actions.show_help", mode = "n" },
         ["q"] = "actions.close",
-        ["<C-v>"] = function()
-          require('oil.actions').select_vsplit.callback()
-          require('oil.actions').close.callback()
-        end,
       },
       skip_confirm_for_simple_edits = true,
       view_options = {
         hidden = true
       },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { { "nvim-mini/mini.icons", opts = {} }},
   },
   {
     "nvim-tree/nvim-tree.lua",

@@ -495,6 +495,7 @@ function M.setup()
       })
     end
   })
+  vim.lsp.enable("lua_ls")
 
   vim.lsp.config("lemminx", {
     init_options = {
